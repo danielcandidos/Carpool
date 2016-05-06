@@ -32,7 +32,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:onClick="procurarCarona"
+            android:onClick="irProcurarCarona"
             android:text="Procurar"
             android:textColor="@color/white"
             android:textSize="18dp" />
@@ -44,7 +44,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:onClick="oferecerCaronaCarona"
+            android:onClick="irOferecerCarona"
             android:text="Oferecer"
             android:textColor="@color/white"
             android:textSize="18dp" />

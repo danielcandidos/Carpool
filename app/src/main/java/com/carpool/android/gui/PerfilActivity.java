@@ -3,6 +3,7 @@ package com.carpool.android.gui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.carpool.android.R;
 
@@ -17,6 +18,22 @@ public class PerfilActivity extends AppCompatActivity {
 
         // Mapeando e reconhecendo a toolbar da tela
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        this.buildToolbar();
     }
+
+    private void buildToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechar();
+            }
+        });
+    }
+
+    private void fechar(){
+        this.finish();
+    }
+
 }

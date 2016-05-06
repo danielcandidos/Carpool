@@ -16,7 +16,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icone_transparente"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -43,14 +43,18 @@
         <activity
             android:name=".gui.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".gui.MainActivity" />
+        <activity
+            android:name=".gui.MainActivity">
+        </activity>
         <activity
             android:name=".gui.ProcurarCaronaActivity"
-            android:label="@string/title_activity_procurar_carona" />
+            android:label="@string/title_activity_procurar_carona"></activity>
         <activity
             android:name=".gui.OferecerCaronaActivity"
-            android:label="@string/title_activity_oferecer_carona" />
-        <activity android:name=".gui.PerfilActivity"></activity>
+            android:label="@string/title_activity_oferecer_carona"></activity>
+        <activity
+            android:name=".gui.PerfilActivity"
+            android:label="@string/title_activity_perfil"></activity>
     </application>
 
 </manifest>

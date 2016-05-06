@@ -79,21 +79,24 @@ public class Util {
 
         // Criação dos items e subitems do NavDrawer //
         PrimaryDrawerItem item1 = new PrimaryDrawerItem()
+                .withName(R.string.home)
+                .withIcon(R.drawable.nav_item_home);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem()
                 .withName(R.string.perfil)
                 .withIcon(R.drawable.nav_item_profile);
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem()
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem()
                 .withName(R.string.procurar_carona)
                 .withIcon(R.drawable.nav_item_procurar);
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem()
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem()
                 .withName(R.string.oferecer_carona)
                 .withIcon(R.drawable.nav_item_oferecer);
-        SecondaryDrawerItem item4 = new SecondaryDrawerItem()
+        SecondaryDrawerItem item5 = new SecondaryDrawerItem()
                 .withName(R.string.caronas)
                 .withIcon(R.drawable.nav_item_preferences);
-        SecondaryDrawerItem item5 = new SecondaryDrawerItem()
+        SecondaryDrawerItem item6 = new SecondaryDrawerItem()
                 .withName(R.string.pontos_favoritos)
                 .withIcon(R.drawable.nav_item_preferences);
-        SecondaryDrawerItem item6 = new SecondaryDrawerItem()
+        SecondaryDrawerItem item7 = new SecondaryDrawerItem()
                 .withName(R.string.logout)
                 .withIcon(R.drawable.nav_item_exit);
 
@@ -123,10 +126,11 @@ public class Util {
                         item1,
                         item2,
                         item3,
-                        new DividerDrawerItem(),
                         item4,
+                        new DividerDrawerItem(),
                         item5,
-                        item6
+                        item6,
+                        item7
                 )
                 .withMultiSelect(false)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -146,26 +150,34 @@ public class Util {
         Intent i;
         switch (position) {
             case 1:
-                //
+                i = new Intent(activity, MapsActivity.class);
+                activity.startActivity(i);
+                activity.finish();
                 break;
             case 2:
-                i = new Intent(activity, MapsActivity.class);
+                i = new Intent(activity, PerfilActivity.class);
                 activity.startActivity(i);
                 break;
             case 3:
                 i = new Intent(activity, MapsActivity.class);
                 activity.startActivity(i);
+                activity.finish();
                 break;
             case 4:
-                //
+                i = new Intent(activity, MapsActivity.class);
+                activity.startActivity(i);
+                activity.finish();
                 break;
             case 5:
                 //
                 break;
             case 6:
-                //
+                showMsgToastShort(activity, "Em desenvolvimento.");
                 break;
             case 7:
+                showMsgToastShort(activity, "Em desenvolvimento.");
+                break;
+            case 8:
                 activity.finish();
                 break;
         }

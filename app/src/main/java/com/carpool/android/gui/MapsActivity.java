@@ -69,19 +69,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .position(localizacaoAtual)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador)));
 
-                // Faz o processo de animação para a posição atual no mapa
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoAtual, 15.0f));
+
+                /* Faz o processo de animação para a posição atual no mapa
                 CameraPosition updateMinhaLocalizacao = new CameraPosition(localizacaoAtual, 17, 0, 0);
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(updateMinhaLocalizacao), 3000, null);
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(updateMinhaLocalizacao), 2000, null);*/
             }
         });
     }
 
-    public void procurarCarona (View view) {
+    public void irProcurarCarona (View view) {
         this.trocarTela(MapsActivity.this, ProcurarCaronaActivity.class, localizacaoAtual);
     }
 
-    public void oferecerCarona (View view) {
-        //this.trocarTela(MapsActivity.this, OferecerCaronaActivity.class, localizacaoAtual);
+    public void irOferecerCarona (View view) {
+        this.trocarTela(MapsActivity.this, OferecerCaronaActivity.class, localizacaoAtual);
     }
 
     private void trocarTela (Activity activityAtual, Class activitySeguinte, LatLng ponto) {

@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/nav_profile" />
+                android:src="@drawable/profile_black" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
                 android:padding="15dp">
 
                 <TextView
-                    android:id="@+id/txtMedicoNome"
+                    android:id="@+id/txtPerfilNome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -49,18 +49,19 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <TextView
-                    android:id="@+id/txtMedicoEmail"
+                    android:id="@+id/txtPerfilDepartamento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtMedicoNome"
+                    android:layout_below="@id/txtPerfilNome"
                     android:layout_marginBottom="5dp"
-                    android:text="raffaelvramos@gmail.com" />
+                    android:text="DEINFO" />
 
                 <TextView
+                    android:id="@+id/txtPerfilCurso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtMedicoEmail"
-                    android:text="81 9 9765-6723" />
+                    android:layout_below="@id/txtPerfilDepartamento"
+                    android:text="Sistemas de Informação" />
 
             </RelativeLayout>
 
@@ -70,29 +71,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
-                android:layout_width="match_parent"
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:text="Chat" />
+                android:src="@drawable/ic_perfil_whatsapp" />
 
-            <Button
-                android:layout_width="match_parent"
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:text="Email" />
+                android:src="@drawable/ic_perfil_facebook" />
 
-            <Button
-                android:layout_width="match_parent"
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:text="Cell" />
+                android:src="@drawable/ic_perfil_email" />
 
         </LinearLayout>
 

@@ -2,6 +2,9 @@
     <string name="app_name">Carpool</string>
     <string name="title_activity_maps">Mapa</string>
     <string name="title_activity_login">Entrar</string>
+    <string name="title_activity_procurar_carona">Procurar Carona</string>
+    <string name="title_activity_oferecer_carona">Oferecer Carona</string>
+    <string name="title_activity_perfil">Perfil</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -16,15 +19,13 @@
         completions."
     </string>
 
-
     <!-- Strings referentes ao NavDrawer -->
+    <string name="home">Página Inicial</string>
     <string name="perfil">Seu Perfil</string>
     <string name="procurar_carona">Procurar Carona</string>
     <string name="oferecer_carona">Oferecer Carona</string>
     <string name="caronas">Suas Caronas</string>
     <string name="pontos_favoritos">Pontos Favoritos</string>
     <string name="logout">Sair</string>
-    <string name="title_activity_procurar_carona">Procurar Carona</string>
-    <string name="title_activity_oferecer_carona">Oferecer Carona</string>
 
 </resources>

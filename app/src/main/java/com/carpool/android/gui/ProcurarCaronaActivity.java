@@ -1,6 +1,7 @@
 package com.carpool.android.gui;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -62,7 +64,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         public boolean onMarkerMoved(Marker marker) {
             //teste = marker.getPosition(); //TESTANDO PESQUISAl
             if (marker.equals(centerMarker)) {
-                circle.setCenter(marker.getPosition());
+                localizacaoAtual = marker.getPosition();
+                circle.setCenter(localizacaoAtual);
                 return true;
             }
             return false;
@@ -81,16 +84,9 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procurar_carona);
 
-        // Mapeando e reconhecendo a toolbar da tela
+        // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(android.R.drawable.status_bar_item_app_background);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Util.trocarTela(ProcurarCaronaActivity.this, MapsActivity.class);
-            }
-        });
-        setSupportActionBar(toolbar);
+        this.buildToolbar();
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -99,7 +95,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         // Mapeando o SeekBar referente ao raio de busca e inicializando valores padroes
         seekbarRaio = (SeekBar) findViewById(R.id.seekbarRaio);
         seekbarRaio.setMax(RADIUS_MAX);
-        seekbarRaio.setProgress(1000);
+        mRadiusValue = 1000;
+        seekbarRaio.setProgress(mRadiusValue);
 
         // Buscando e recuperando os valores da localizacao atual enviada pela tela anterior
         Intent intent = getIntent();
@@ -108,9 +105,26 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                 intent.getDoubleExtra("longitude", 0));
     }
 
+    private void buildToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechar();
+            }
+        });
+    }
+
+    private void fechar(){
+        this.finish();
+    }
+
     public void procurarPontos(View view){
-        Util.showMsgToastLong(ProcurarCaronaActivity.this, "Ainda em desenvolvimento");
-        LatLng centro = new LatLng(teste.latitude, teste.longitude);
+        mMap.clear();
+        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
+        mCircles.add(circle);
+        //LatLng centro = new LatLng(teste.latitude, teste.longitude);
 
         ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
 
@@ -131,12 +145,12 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
             if ((6371
                     * Math.acos(
                     //Math.cos(Math.toRadians(-8.0268792)) *
-                    Math.cos(Math.toRadians(centro.latitude)) *
+                    Math.cos(Math.toRadians(localizacaoAtual.latitude)) *
                             Math.cos(Math.toRadians(points.getLatitude())) *
                             //Math.cos(Math.toRadians(-34.9147138) - Math.toRadians(points.getLongitude())) +
-                            Math.cos(Math.toRadians(centro.longitude) - Math.toRadians(points.getLongitude())) +
+                            Math.cos(Math.toRadians(localizacaoAtual.longitude) - Math.toRadians(points.getLongitude())) +
                             //Math.sin(Math.toRadians(-8.0268792)) *
-                            Math.sin(Math.toRadians(centro.latitude)) *
+                            Math.sin(Math.toRadians(localizacaoAtual.latitude)) *
                                     Math.sin(Math.toRadians(points.getLatitude())))
             ) <= (mRadiusValue/1000)){
 
@@ -151,6 +165,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
             LatLng agora = new LatLng(points.getLatitude(), points.getLongitude());
             mMap.addMarker(new MarkerOptions()
                     .position(agora)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_car))
                     .title("Ponto" + i));
         }
     }
@@ -191,7 +206,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         mMap.setOnMarkerClickListener(this);
 
         // Cria um objeto DraggableCircle para inicializar o efeito de raio
-        DraggableCircle circle = new DraggableCircle(localizacaoAtual, seekbarRaio.getProgress());
+        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
         mCircles.add(circle);
 
         // Move the map so that it is centered on the initial circle
@@ -227,16 +242,14 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         View view = ((SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map))
                 .getView();
-
         mMap.clear();
-        teste = latLng; //TESTANDO PESQUISA
-        DraggableCircle circle = new DraggableCircle(latLng, mRadiusValue);
+        localizacaoAtual = latLng;
+        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
         mCircles.add(circle);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        //Util.showMsgToastShort(ProcurarCaronaActivity.this, "MARCADOR CLICADO!");
         Util.trocarTela(ProcurarCaronaActivity.this, PerfilActivity.class);
         return false;
     }
