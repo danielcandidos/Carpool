@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.carpool.android.R;
+import com.carpool.android.dominio.CirclePoints;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
+
+    private LatLng teste;
 
     private static final int RADIUS_MAX = 5000;
     private final int mStrokeColor = -16777216;
@@ -107,6 +110,49 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     public void procurarPontos(View view){
         Util.showMsgToastLong(ProcurarCaronaActivity.this, "Ainda em desenvolvimento");
+        LatLng centro = new LatLng(teste.latitude, teste.longitude);
+
+        ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
+
+        CirclePoints points1 = new CirclePoints(-8.028946, -34.921816); //casa gabi
+        pontos.add(points1);
+        CirclePoints points2 = new CirclePoints(-8.0157963,-34.9503266); //rural
+        pontos.add(points2);
+        CirclePoints points3 = new CirclePoints(-8.027537, -34.913717); //treze de maio
+        pontos.add(points3);
+        CirclePoints points4 = new CirclePoints(-8.0291815,-34.9067797); //hospital
+        pontos.add(points4);
+        CirclePoints points5 = new CirclePoints(-8.0291820,-34.9067780); //qualquer coisa
+        pontos.add(points5);
+
+        ArrayList<CirclePoints> pontosNoRaio = new ArrayList<CirclePoints>();
+
+        for (CirclePoints points : pontos){
+            if ((6371
+                    * Math.acos(
+                    //Math.cos(Math.toRadians(-8.0268792)) *
+                    Math.cos(Math.toRadians(centro.latitude)) *
+                            Math.cos(Math.toRadians(points.getLatitude())) *
+                            //Math.cos(Math.toRadians(-34.9147138) - Math.toRadians(points.getLongitude())) +
+                            Math.cos(Math.toRadians(centro.longitude) - Math.toRadians(points.getLongitude())) +
+                            //Math.sin(Math.toRadians(-8.0268792)) *
+                            Math.sin(Math.toRadians(centro.latitude)) *
+                                    Math.sin(Math.toRadians(points.getLatitude())))
+            ) <= (mRadiusValue/1000)){
+
+                pontosNoRaio.add(points);
+
+            }
+        }
+
+        int i = 0;
+        for (CirclePoints points : pontosNoRaio){
+            i += 1;
+            LatLng agora = new LatLng(points.getLatitude(), points.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(agora)
+                    .title("Ponto" + i));
+        }
     }
 
     /// - - - - - - - REGION SEEKBAR LISTENER - - - - - - - ///
@@ -142,6 +188,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         // Mapeia um DragListener e um LongClickListener para o mapa
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMapLongClickListener(this);
+        mMap.setOnMarkerClickListener(this);
 
         // Cria um objeto DraggableCircle para inicializar o efeito de raio
         DraggableCircle circle = new DraggableCircle(localizacaoAtual, seekbarRaio.getProgress());
@@ -182,9 +229,16 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                 .getView();
 
         mMap.clear();
-        //teste = latLng; //TESTANDO PESQUISA
+        teste = latLng; //TESTANDO PESQUISA
         DraggableCircle circle = new DraggableCircle(latLng, mRadiusValue);
         mCircles.add(circle);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //Util.showMsgToastShort(ProcurarCaronaActivity.this, "MARCADOR CLICADO!");
+        Util.trocarTela(ProcurarCaronaActivity.this, PerfilActivity.class);
+        return false;
     }
 
 }

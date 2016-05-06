@@ -33,8 +33,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".gui.MapsActivity">
+        <activity android:name=".gui.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,14 +42,15 @@
         </activity>
         <activity
             android:name=".gui.LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
-        <activity android:name=".gui.MainActivity">
-        </activity>
+            android:label="@string/title_activity_login" />
+        <activity android:name=".gui.MainActivity" />
         <activity
             android:name=".gui.ProcurarCaronaActivity"
-            android:label="@string/title_activity_procurar_carona">
-        </activity>
+            android:label="@string/title_activity_procurar_carona" />
+        <activity
+            android:name=".gui.OferecerCaronaActivity"
+            android:label="@string/title_activity_oferecer_carona" />
+        <activity android:name=".gui.PerfilActivity"></activity>
     </application>
 
 </manifest>

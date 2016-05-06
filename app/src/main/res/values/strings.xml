@@ -25,5 +25,6 @@
     <string name="pontos_favoritos">Pontos Favoritos</string>
     <string name="logout">Sair</string>
     <string name="title_activity_procurar_carona">Procurar Carona</string>
+    <string name="title_activity_oferecer_carona">Oferecer Carona</string>
 
 </resources>
