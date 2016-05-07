@@ -52,6 +52,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
             this.radius = radius;
             centerMarker = mMap.addMarker(new MarkerOptions()
                     .position(center)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
                     .draggable(true));
             circle = mMap.addCircle(new CircleOptions()
                     .center(center)
@@ -128,16 +129,22 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
         ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
 
-        CirclePoints points1 = new CirclePoints(-8.028946, -34.921816); //casa gabi
+        CirclePoints points1 = new CirclePoints(-8.0289460,-34.9218160); // Casa gabi
         pontos.add(points1);
-        CirclePoints points2 = new CirclePoints(-8.0157963,-34.9503266); //rural
+        CirclePoints points2 = new CirclePoints(-8.01579630,-34.9503266); // Rural
         pontos.add(points2);
-        CirclePoints points3 = new CirclePoints(-8.027537, -34.913717); //treze de maio
+        CirclePoints points3 = new CirclePoints(-8.0275370,-34.9137170); // Treze de maio
         pontos.add(points3);
-        CirclePoints points4 = new CirclePoints(-8.0291815,-34.9067797); //hospital
+        CirclePoints points4 = new CirclePoints(-8.0291815,-34.9067797); // Hospital
         pontos.add(points4);
-        CirclePoints points5 = new CirclePoints(-8.0291820,-34.9067780); //qualquer coisa
+        CirclePoints points5 = new CirclePoints(-8.0291820,-34.9067780); // Qualquer coisa
         pontos.add(points5);
+        CirclePoints points6 = new CirclePoints(-8.0520590,-34.9451160); // Reitoria UFPE
+        pontos.add(points6);
+        CirclePoints points7 = new CirclePoints(-8.0486960,-34.9447970); // Sudene
+        pontos.add(points7);
+        CirclePoints points8 = new CirclePoints(-8.0588620,-34.9475320); // IFPE
+        pontos.add(points8);
 
         ArrayList<CirclePoints> pontosNoRaio = new ArrayList<CirclePoints>();
 
@@ -165,7 +172,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
             LatLng agora = new LatLng(points.getLatitude(), points.getLongitude());
             mMap.addMarker(new MarkerOptions()
                     .position(agora)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_car))
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
                     .title("Ponto" + i));
         }
     }
@@ -210,7 +217,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         mCircles.add(circle);
 
         // Move the map so that it is centered on the initial circle
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoAtual, 15.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoAtual, 14.5f));
     }
 
     @Override

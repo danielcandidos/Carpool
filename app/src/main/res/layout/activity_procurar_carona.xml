@@ -31,9 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
-            <!--<TextView android:text="@string/radius_metros" />-->
-            <TextView android:text="Raio de busca (em metros)" />
-
+            <TextView android:text="@string/raio_de_busca" />
             <SeekBar android:id="@+id/seekbarRaio" />
         </TableRow>
     </TableLayout>
@@ -45,7 +43,7 @@
         android:layout_weight="1"
         android:background="@color/colorPrimary"
         android:onClick="procurarPontos"
-        android:text="Procurar"
+        android:text="@string/procurar"
         android:textColor="@color/white"
         android:textSize="18dp" />
 

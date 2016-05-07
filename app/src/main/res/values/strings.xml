@@ -28,4 +28,9 @@
     <string name="pontos_favoritos">Pontos Favoritos</string>
     <string name="logout">Sair</string>
 
+    <!-- Strings botões e telas -->
+    <string name="procurar">Procurar</string>
+    <string name="oferecer">Oferecer</string>
+    <string name="raio_de_busca">Raio de busca</string>
+
 </resources>

@@ -28,24 +28,22 @@
         <Button
             android:id="@+id/btnProcurar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="irProcurarCarona"
-            android:text="Procurar"
+            android:text="@string/procurar"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
         <Button
             android:id="@+id/btnOferecer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="irOferecerCarona"
-            android:text="Oferecer"
+            android:text="@string/oferecer"
             android:textColor="@color/white"
             android:textSize="18dp" />
     </LinearLayout>
