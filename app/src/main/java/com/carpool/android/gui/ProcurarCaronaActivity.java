@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.carpool.android.R;
 import com.carpool.android.dominio.CirclePoints;
@@ -29,7 +32,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     private LatLng teste;
 
-    private static final int RADIUS_MAX = 5000;
+    private static final int RADIUS_MAX = 3000;
     private final int mStrokeColor = -16777216;
     private final int mFillColor = 680656640;
     private final int mWidthValue = 5;
@@ -40,7 +43,10 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     private Toolbar toolbar;
     private GoogleMap mMap;
+    private TextView txtRaio;
     private SeekBar seekbarRaio;
+    private Spinner spnInicio;
+    private Spinner spnFim;
 
     private class DraggableCircle {
 
@@ -93,11 +99,28 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Mapeando o TextView referente ao numero dinamico do raio de busca
+        txtRaio = (TextView) findViewById(R.id.txtRaio);
+
         // Mapeando o SeekBar referente ao raio de busca e inicializando valores padroes
         seekbarRaio = (SeekBar) findViewById(R.id.seekbarRaio);
         seekbarRaio.setMax(RADIUS_MAX);
         mRadiusValue = 1000;
         seekbarRaio.setProgress(mRadiusValue);
+
+        // Testando Spinner de horarios
+        List<String> valores = new ArrayList<String>();
+        valores.add("  08:00");
+        valores.add("  08:30");
+        valores.add("  09:00");
+        valores.add("  09:30");
+        valores.add("  10:00");
+        spnInicio = (Spinner) findViewById(R.id.spnInicio);
+        ArrayAdapter adapter1 = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valores);
+        spnInicio.setAdapter(adapter1);
+        spnFim = (Spinner) findViewById(R.id.spnFim);
+        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valores);
+        spnFim.setAdapter(adapter2);
 
         // Buscando e recuperando os valores da localizacao atual enviada pela tela anterior
         Intent intent = getIntent();
@@ -182,6 +205,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekBar == seekbarRaio){
             mRadiusValue = seekbarRaio.getProgress();
+            txtRaio.setText("Raio de busca: "+mRadiusValue+" m");
         }
         for (DraggableCircle draggableCircle : mCircles) {
             draggableCircle.onStyleChange();
