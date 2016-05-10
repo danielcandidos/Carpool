@@ -28,7 +28,7 @@ public class PessoaActivity extends AppCompatActivity {
 
         // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        this.buildToolbar();
+        Util.buildToolbarHomeButton(PessoaActivity.this, toolbar);
 
         // Testando Spinner de generos
         List<String> valores = new ArrayList<String>();
@@ -61,21 +61,6 @@ public class PessoaActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void buildToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechar();
-            }
-        });
-    }
-
-    private void fechar(){
-        this.finish();
     }
 
     public void setData(View view){

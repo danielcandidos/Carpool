@@ -18,22 +18,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         // Mapeando e reconhecendo a toolbar da tela
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        this.buildToolbar();
-    }
-
-    private void buildToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechar();
-            }
-        });
-    }
-
-    private void fechar(){
-        this.finish();
+        Util.buildToolbarHomeButton(PerfilActivity.this, toolbar);
     }
 
 }

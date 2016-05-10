@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
@@ -70,11 +71,18 @@ public class Util {
         activityAtual.startActivity(intent);
     }
 
-    public static void buildMarker(LatLng latLng, String titulo){
-
+    public static void buildToolbarHomeButton(final AppCompatActivity activity, Toolbar toolbar){
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
     }
 
-    public static Drawer buildDrawer(final Activity activity, Toolbar toolbar) {
+    public static void buildDrawer(final Activity activity, Toolbar toolbar) {
         final Activity activityFinal = activity;
 
         // Criação dos items e subitems do NavDrawer //
@@ -142,7 +150,7 @@ public class Util {
                 })
                 .build();
 
-        return drawer;
+        //return drawer;
     }
 
     private static void acoesDrawer(Activity activity, View view, int position, IDrawerItem drawerItem){

@@ -29,7 +29,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements OnMapRe
 
         // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        this.buildToolbar();
+        Util.buildToolbarHomeButton(OferecerCaronaActivity.this, toolbar);
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -40,21 +40,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements OnMapRe
         localizacaoAtual = new LatLng(
                 intent.getDoubleExtra("latitude", 0),
                 intent.getDoubleExtra("longitude", 0));
-    }
-
-    private void buildToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechar();
-            }
-        });
-    }
-
-    private void fechar(){
-        this.finish();
     }
 
     public void oferecerCarona (View view) {

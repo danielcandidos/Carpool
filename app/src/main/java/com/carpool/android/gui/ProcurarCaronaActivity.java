@@ -2,15 +2,12 @@ package com.carpool.android.gui;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -21,29 +18,21 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
-    private LatLng teste;
-
     private static final int RADIUS_MAX = 3000;
-    private final int mStrokeColor = -16777216;
-    private final int mFillColor = 680656640;
-    private final int mWidthValue = 5;
-
+    private static final int RADIUS_INIT = 1000;
     private int mRadiusValue;
-    private List<DraggableCircle> mCircles = new ArrayList<DraggableCircle>(1);
     private LatLng localizacaoAtual;
+    private DraggableCircle draggableCircle;
 
     private Toolbar toolbar;
     private GoogleMap mMap;
@@ -52,44 +41,6 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     private EditText edtHorarioInicio;
     private EditText edtHorarioFim;
 
-    private class DraggableCircle {
-
-        private final Marker centerMarker;
-        private final Circle circle;
-        private double radius;
-
-        public DraggableCircle(LatLng center, double radius) {
-            this.radius = radius;
-            centerMarker = mMap.addMarker(new MarkerOptions()
-                    .position(center)
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
-                    .draggable(true));
-            circle = mMap.addCircle(new CircleOptions()
-                    .center(center)
-                    .radius(radius)
-                    .strokeWidth(mWidthValue)
-                    .strokeColor(mStrokeColor)
-                    .fillColor(mFillColor));
-        }
-
-        public boolean onMarkerMoved(Marker marker) {
-            //teste = marker.getPosition(); //TESTANDO PESQUISAl
-            if (marker.equals(centerMarker)) {
-                localizacaoAtual = marker.getPosition();
-                circle.setCenter(localizacaoAtual);
-                return true;
-            }
-            return false;
-        }
-
-        public void onStyleChange() {
-            circle.setStrokeWidth(mWidthValue);
-            circle.setFillColor(mFillColor);
-            circle.setStrokeColor(mStrokeColor);
-            circle.setRadius(mRadiusValue);
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +48,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
         // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        this.buildToolbar();
+        Util.buildToolbarHomeButton(ProcurarCaronaActivity.this, toolbar);
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -109,10 +60,10 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         // Mapeando o SeekBar referente ao raio de busca e inicializando valores padroes
         seekbarRaio = (SeekBar) findViewById(R.id.seekbarRaio);
         seekbarRaio.setMax(RADIUS_MAX);
-        mRadiusValue = 1000;
-        seekbarRaio.setProgress(mRadiusValue);
+        seekbarRaio.setProgress(RADIUS_INIT);
+        mRadiusValue = seekbarRaio.getProgress();
 
-        // Testando Pickers de horarios
+        // Mapeando EditText que abrem Pickers de horarios
         edtHorarioInicio = (EditText) findViewById(R.id.edtHorarioInicio);
         edtHorarioFim = (EditText) findViewById(R.id.edtHorarioFim);
 
@@ -121,21 +72,6 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         localizacaoAtual = new LatLng(
                 intent.getDoubleExtra("latitude", 0),
                 intent.getDoubleExtra("longitude", 0));
-    }
-
-    private void buildToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechar();
-            }
-        });
-    }
-
-    private void fechar(){
-        this.finish();
     }
 
     public void setTime(View view){
@@ -169,9 +105,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     public void procurarPontos(View view){
         mMap.clear();
-        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
-        mCircles.add(circle);
-        //LatLng centro = new LatLng(teste.latitude, teste.longitude);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        mMap = draggableCircle.getmMap();
 
         ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
 
@@ -230,9 +165,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
             mRadiusValue = seekbarRaio.getProgress();
             txtRaio.setText("Raio de busca: "+mRadiusValue+" m");
         }
-        for (DraggableCircle draggableCircle : mCircles) {
-            draggableCircle.onStyleChange();
-        }
+        draggableCircle.setRadius(mRadiusValue);
+        mMap = draggableCircle.getmMap();
     }
 
     @Override
@@ -260,8 +194,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         mMap.setOnMarkerClickListener(this);
 
         // Cria um objeto DraggableCircle para inicializar o efeito de raio
-        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
-        mCircles.add(circle);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        mMap = draggableCircle.getmMap();
 
         // Move the map so that it is centered on the initial circle
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoAtual, 14.5f));
@@ -283,23 +217,16 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     }
 
     private void onMarkerMoved(Marker marker) {
-        for (DraggableCircle draggableCircle : mCircles) {
-            if (draggableCircle.onMarkerMoved(marker)) {
-                break;
-            }
-        }
+        localizacaoAtual = draggableCircle.onMarkerMoved(marker);
     }
 
     // Metódo para gerar novo circulo, com clique longo no mapa
     @Override
     public void onMapLongClick(LatLng latLng) {
-        View view = ((SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map))
-                .getView();
         mMap.clear();
         localizacaoAtual = latLng;
-        DraggableCircle circle = new DraggableCircle(localizacaoAtual, mRadiusValue);
-        mCircles.add(circle);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        mMap = draggableCircle.getmMap();
     }
 
     @Override
