@@ -43,18 +43,17 @@
         <activity
             android:name=".gui.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity
-            android:name=".gui.MainActivity">
-        </activity>
+        <activity android:name=".gui.MainActivity"></activity>
         <activity
             android:name=".gui.ProcurarCaronaActivity"
-            android:label="@string/title_activity_procurar_carona"></activity>
+            android:label="@string/title_activity_procurar_carona" />
         <activity
             android:name=".gui.OferecerCaronaActivity"
-            android:label="@string/title_activity_oferecer_carona"></activity>
+            android:label="@string/title_activity_oferecer_carona" />
         <activity
             android:name=".gui.PerfilActivity"
-            android:label="@string/title_activity_perfil"></activity>
+            android:label="@string/title_activity_perfil" />
+        <activity android:name=".gui.PessoaActivity"></activity>
     </application>
 
 </manifest>

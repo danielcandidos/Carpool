@@ -155,7 +155,7 @@ public class Util {
                 activity.finish();
                 break;
             case 2:
-                i = new Intent(activity, PerfilActivity.class);
+                i = new Intent(activity, PessoaActivity.class);
                 activity.startActivity(i);
                 break;
             case 3:

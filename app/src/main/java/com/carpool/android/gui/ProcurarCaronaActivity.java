@@ -1,5 +1,6 @@
 package com.carpool.android.gui;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -7,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.carpool.android.R;
 import com.carpool.android.dominio.CirclePoints;
@@ -25,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
@@ -45,8 +49,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     private GoogleMap mMap;
     private TextView txtRaio;
     private SeekBar seekbarRaio;
-    private Spinner spnInicio;
-    private Spinner spnFim;
+    private EditText edtHorarioInicio;
+    private EditText edtHorarioFim;
 
     private class DraggableCircle {
 
@@ -108,19 +112,9 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         mRadiusValue = 1000;
         seekbarRaio.setProgress(mRadiusValue);
 
-        // Testando Spinner de horarios
-        List<String> valores = new ArrayList<String>();
-        valores.add("  08:00");
-        valores.add("  08:30");
-        valores.add("  09:00");
-        valores.add("  09:30");
-        valores.add("  10:00");
-        spnInicio = (Spinner) findViewById(R.id.spnInicio);
-        ArrayAdapter adapter1 = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valores);
-        spnInicio.setAdapter(adapter1);
-        spnFim = (Spinner) findViewById(R.id.spnFim);
-        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valores);
-        spnFim.setAdapter(adapter2);
+        // Testando Pickers de horarios
+        edtHorarioInicio = (EditText) findViewById(R.id.edtHorarioInicio);
+        edtHorarioFim = (EditText) findViewById(R.id.edtHorarioFim);
 
         // Buscando e recuperando os valores da localizacao atual enviada pela tela anterior
         Intent intent = getIntent();
@@ -142,6 +136,35 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     private void fechar(){
         this.finish();
+    }
+
+    public void setTime(View view){
+        final EditText edtHorario = (EditText) view;
+
+        Calendar calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog;
+        timePickerDialog = new TimePickerDialog(
+                ProcurarCaronaActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        edtHorario.setText(selectedHour + ":" + selectedMinute);
+                    }
+                },
+                hour,
+                minute,
+                true);// Yes 24 hour time
+
+        if (edtHorario.equals(edtHorarioInicio)){
+            timePickerDialog.setTitle("Horário início");
+        } else if (edtHorario.equals(edtHorarioFim)) {
+            timePickerDialog.setTitle("Horário fim");
+        }
+        timePickerDialog.show();
     }
 
     public void procurarPontos(View view){
