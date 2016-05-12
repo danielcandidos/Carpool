@@ -9,9 +9,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by Daniel on 06/05/2016.
- */
 public class DraggableCircle {
 
     private final int mStrokeColor = -16777216;

@@ -21,9 +21,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-/**
- * Created by Daniel on 02/05/2016.
- */
 public class Util {
 
     public static void showMsgToastShort(Activity activity, String texto) {
@@ -180,10 +177,10 @@ public class Util {
                 //
                 break;
             case 6:
-                showMsgToastShort(activity, "Em desenvolvimento.");
+                showMsgToastShort(activity, activity.getString(R.string.em_desenvolvimento));
                 break;
             case 7:
-                showMsgToastShort(activity, "Em desenvolvimento.");
+                showMsgToastShort(activity, activity.getString(R.string.em_desenvolvimento));
                 break;
             case 8:
                 activity.finish();

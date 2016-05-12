@@ -1,8 +1,5 @@
 package com.carpool.android.dominio;
 
-/**
- * Created by Daniel on 29/04/2016.
- */
 public class CirclePoints {
     private double latitude;
     private double longitude;

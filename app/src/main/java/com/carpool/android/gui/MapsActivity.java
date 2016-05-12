@@ -1,7 +1,9 @@
 package com.carpool.android.gui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +16,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private SharedPreferences preferences;
 
     private Toolbar toolbar;
     private GoogleMap mMap;
@@ -33,12 +36,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Chamando metodo que cria e inicializa o NavigationDrawer
+        // Chamando metodo que cria e inicializa o NavigationDrawer, junto com botao na toolbar
         Util.buildDrawer(MapsActivity.this, toolbar);
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Iniializando Preferences com lista de pontos
+        preferences = getSharedPreferences("pontos_referencia", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.commit();
     }
 
     @Override
@@ -79,17 +87,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void irProcurarCarona (View view) {
-        this.trocarTela(MapsActivity.this, ProcurarCaronaActivity.class, localizacaoAtual);
+        if (this.verificarLocalizacao()) {
+            this.trocarTela(MapsActivity.this, ProcurarCaronaActivity.class, localizacaoAtual);
+        } else {
+            Util.showMsgToastShort(MapsActivity.this, (getString(R.string.carregando_localizacao)));
+        }
     }
 
     public void irOferecerCarona (View view) {
-        this.trocarTela(MapsActivity.this, OferecerCaronaActivity.class, localizacaoAtual);
+        if (this.verificarLocalizacao()) {
+            this.trocarTela(MapsActivity.this, OferecerCaronaActivity.class, localizacaoAtual);
+        } else {
+            Util.showMsgToastShort(MapsActivity.this, (getString(R.string.carregando_localizacao)));
+        }
     }
 
-    private void trocarTela (Activity activityAtual, Class activitySeguinte, LatLng ponto) {
+    private boolean verificarLocalizacao () {
+        if (!(localizacaoAtual == null)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void trocarTela(Activity activityAtual, Class activitySeguinte, LatLng ponto) {
         Intent intent = new Intent(activityAtual, activitySeguinte);
-        intent.putExtra("latitude", ponto.latitude);
-        intent.putExtra("longitude", ponto.longitude);
+        intent.putExtra(getString(R.string.latitude), ponto.latitude); // String
+        intent.putExtra(getString(R.string.longitude), ponto.longitude); // String
         activityAtual.startActivity(intent);
     }
 }

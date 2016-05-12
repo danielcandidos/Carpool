@@ -1,7 +1,9 @@
 package com.carpool.android.gui;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,12 +30,14 @@ import java.util.Calendar;
 public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
+    private SharedPreferences preferences;
+
     private static final int RADIUS_MAX = 3000;
     private static final int RADIUS_INIT = 1000;
     private int mRadiusValue;
     private LatLng localizacaoAtual;
-    private DraggableCircle draggableCircle;
 
+    private DraggableCircle draggableCircle;
     private Toolbar toolbar;
     private GoogleMap mMap;
     private TextView txtRaio;
@@ -70,11 +74,12 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         // Buscando e recuperando os valores da localizacao atual enviada pela tela anterior
         Intent intent = getIntent();
         localizacaoAtual = new LatLng(
-                intent.getDoubleExtra("latitude", 0),
-                intent.getDoubleExtra("longitude", 0));
+                intent.getDoubleExtra(getString(R.string.latitude), 0),
+                intent.getDoubleExtra(getString(R.string.longitude), 0));
     }
 
-    public void setTime(View view){
+    // Método para selecionar horário de inicio e fim para busca de caronas
+    public void setTime(View view) {
         final EditText edtHorario = (EditText) view;
 
         Calendar calendar = Calendar.getInstance();
@@ -95,22 +100,28 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                 minute,
                 true);// Yes 24 hour time
 
-        if (edtHorario.equals(edtHorarioInicio)){
-            timePickerDialog.setTitle("Horário início");
+        if (edtHorario.equals(edtHorarioInicio)) {
+            timePickerDialog.setTitle(getString(R.string.horario_inicio));
         } else if (edtHorario.equals(edtHorarioFim)) {
-            timePickerDialog.setTitle("Horário fim");
+            timePickerDialog.setTitle(getString(R.string.horario_fim));
         }
         timePickerDialog.show();
     }
 
-    public void procurarPontos(View view){
+    public void procurarPontos(View view) {
         mMap.clear();
         draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
         mMap = draggableCircle.getmMap();
 
         ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
 
-        CirclePoints points1 = new CirclePoints(-8.0289460,-34.9218160); // Casa gabi
+        preferences = getSharedPreferences("pontos_referencia", Context.MODE_PRIVATE);
+        //SetStringsPontos pontos2 = (SetStringsPontos) preferences.getStringSet("pontos", new SetStringsPontos());
+        String[] latlon = (preferences.getString("pontos", "")).split("/");
+        CirclePoints point = new CirclePoints(Double.parseDouble(latlon[0]), Double.parseDouble(latlon[1]));
+        pontos.add(point);
+
+        /*CirclePoints points1 = new CirclePoints(-8.0289460,-34.9218160); // Casa gabi
         pontos.add(points1);
         CirclePoints points2 = new CirclePoints(-8.01579630,-34.9503266); // Rural
         pontos.add(points2);
@@ -125,11 +136,11 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         CirclePoints points7 = new CirclePoints(-8.0486960,-34.9447970); // Sudene
         pontos.add(points7);
         CirclePoints points8 = new CirclePoints(-8.0588620,-34.9475320); // IFPE
-        pontos.add(points8);
+        pontos.add(points8);*/
 
         ArrayList<CirclePoints> pontosNoRaio = new ArrayList<CirclePoints>();
 
-        for (CirclePoints points : pontos){
+        for (CirclePoints points : pontos) {
             if ((6371
                     * Math.acos(
                     //Math.cos(Math.toRadians(-8.0268792)) *
@@ -140,7 +151,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                             //Math.sin(Math.toRadians(-8.0268792)) *
                             Math.sin(Math.toRadians(localizacaoAtual.latitude)) *
                                     Math.sin(Math.toRadians(points.getLatitude())))
-            ) <= (mRadiusValue/1000)){
+            ) <= (mRadiusValue / 1000)) {
 
                 pontosNoRaio.add(points);
 
@@ -148,7 +159,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         }
 
         int i = 0;
-        for (CirclePoints points : pontosNoRaio){
+        for (CirclePoints points : pontosNoRaio) {
             i += 1;
             LatLng agora = new LatLng(points.getLatitude(), points.getLongitude());
             mMap.addMarker(new MarkerOptions()
@@ -161,9 +172,9 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     /// - - - - - - - REGION SEEKBAR LISTENER - - - - - - - ///
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (seekBar == seekbarRaio){
+        if (seekBar == seekbarRaio) {
             mRadiusValue = seekbarRaio.getProgress();
-            txtRaio.setText("Raio de busca: "+mRadiusValue+" m");
+            txtRaio.setText("Raio de busca: " + mRadiusValue + " m");
         }
         draggableCircle.setRadius(mRadiusValue);
         mMap = draggableCircle.getmMap();
@@ -182,7 +193,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     /// - - - - - - - REGION ON MAP READER - - - - - - - ///
     @Override
-     public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Mapeia um ChageListener para o SeekBar

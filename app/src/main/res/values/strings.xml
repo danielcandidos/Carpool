@@ -32,5 +32,15 @@
     <string name="procurar">Procurar</string>
     <string name="oferecer">Oferecer</string>
     <string name="raio_de_busca">Raio de busca</string>
+    <string name="horario_inicio">Horário Início</string>
+    <string name="horario_fim">Horário Fim</string>
 
+    <!-- Mensagens de info/erro -->
+    <string name="carregando_localizacao">Aguarde... Carregando localização.</string>
+    <string name="em_desenvolvimento">Em desenvolvimento...</string>
+
+
+    <!-- Strings internas -->
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
 </resources>
