@@ -88,7 +88,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void irProcurarCarona (View view) {
         if (this.verificarLocalizacao()) {
-            this.trocarTela(MapsActivity.this, ProcurarCaronaActivity.class, localizacaoAtual);
+            this.trocarTela(MapsActivity.this, CaronaProcurarActivity.class, localizacaoAtual);
         } else {
             Util.showMsgToastShort(MapsActivity.this, (getString(R.string.carregando_localizacao)));
         }
@@ -96,7 +96,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void irOferecerCarona (View view) {
         if (this.verificarLocalizacao()) {
-            this.trocarTela(MapsActivity.this, OferecerCaronaActivity.class, localizacaoAtual);
+            this.trocarTela(MapsActivity.this, CaronaOferecerActivity.class, localizacaoAtual);
         } else {
             Util.showMsgToastShort(MapsActivity.this, (getString(R.string.carregando_localizacao)));
         }

@@ -7,18 +7,25 @@ import android.view.View;
 
 import com.carpool.android.R;
 
-public class PerfilActivity extends AppCompatActivity {
+public class CaronaInfoActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        setContentView(R.layout.activity_info_carona);
 
         // Mapeando e reconhecendo a toolbar da tela
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Util.buildToolbarHomeButton(PerfilActivity.this, toolbar);
+        Util.buildToolbarHomeButton(CaronaInfoActivity.this, toolbar);
     }
 
+    public void verPerfil(View view) {
+        Util.trocarTela(CaronaInfoActivity.this, PerfilActivity.class);
+    }
+
+    public void pedirCarona(View view) {
+        Util.showMsgToastLong(CaronaInfoActivity.this, "Pedindo carona... Aguarde");
+    }
 }

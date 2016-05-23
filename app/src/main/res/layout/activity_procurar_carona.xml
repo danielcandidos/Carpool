@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.carpool.android.gui.ProcurarCaronaActivity">
+    tools:context=".gui.CaronaProcurarActivity">
 
     <!-- ActionBar exibido no canto superior -->
     <include
@@ -89,13 +89,8 @@
 
     <Button
         android:id="@+id/btnProcurar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
+        style="@style/btn_acao_principal"
         android:onClick="procurarPontos"
-        android:text="@string/procurar"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:text="@string/btn_procurar" />
 
 </LinearLayout>

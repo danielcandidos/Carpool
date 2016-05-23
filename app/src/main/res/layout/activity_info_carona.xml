@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".gui.CaronaInfoActivity">
+
+    <!-- ActionBar exibido no canto superior -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="90"
+        android:background="@color/gray_light">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- INFO MOTORISTA -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="Motorista"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.5"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="3"
+                        android:src="@drawable/profile_black" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:id="@+id/txtPerfilNome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="7dp"
+                            android:text="Raffael Vieira Ramos"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                        <TextView
+                            android:id="@+id/txtPerfilDepartamento"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtPerfilNome"
+                            android:layout_marginBottom="3dp"
+                            android:text="DEINFO" />
+
+                        <TextView
+                            android:id="@+id/txtPerfilCurso"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtPerfilDepartamento"
+                            android:text="Sistemas de Informação" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/txtPerfilCurso"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:onClick="verPerfil"
+                    android:text="@string/btn_ver_perfil"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            </LinearLayout>
+
+            <!-- INFO CARONA -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="Info da Carona"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/textview_listagem_titulo"
+                    android:layout_weight="1"
+                    android:text="Origem" />
+
+                <TextView
+                    style="@style/textview_listagem_conteudo"
+                    android:layout_weight="1"
+                    android:text="Portelinha, Torre, Recife - PE" />
+
+                <TextView
+                    style="@style/textview_listagem_titulo"
+                    android:layout_weight="1"
+                    android:text="Destino" />
+
+                <TextView
+                    style="@style/textview_listagem_conteudo"
+                    android:layout_weight="1"
+                    android:text="Universidade Federal Rural de Pernambuco" />
+
+                <TextView
+                    style="@style/textview_listagem_titulo"
+                    android:layout_weight="1"
+                    android:text="Horário de saída" />
+
+                <TextView
+                    style="@style/textview_listagem_conteudo"
+                    android:layout_weight="1"
+                    android:text="09:30" />
+
+                <TextView
+                    style="@style/textview_listagem_titulo"
+                    android:layout_weight="1"
+                    android:text="Vagas" />
+
+                <TextView
+                    style="@style/textview_listagem_conteudo"
+                    android:layout_weight="1"
+                    android:text="04" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnPedir"
+        style="@style/btn_acao_principal"
+        android:onClick="pedirCarona"
+        android:text="@string/btn_pedir" />
+
+</LinearLayout>

@@ -5,6 +5,7 @@
     <string name="title_activity_procurar_carona">Procurar Carona</string>
     <string name="title_activity_oferecer_carona">Oferecer Carona</string>
     <string name="title_activity_perfil">Perfil</string>
+    <string name="title_activity_info_carona">Carona</string>
 
 
     <!-- Strings referentes ao NavDrawer -->
@@ -17,8 +18,10 @@
     <string name="logout">Sair</string>
 
     <!-- Strings botões e telas -->
-    <string name="procurar">Procurar</string>
-    <string name="oferecer">Oferecer</string>
+    <string name="btn_procurar">Procurar</string>
+    <string name="btn_oferecer">Oferecer</string>
+    <string name="btn_pedir">Pedir Carona</string>
+    <string name="btn_ver_perfil">Ver Perfil</string>
     <string name="raio_de_busca">Raio de busca: </string>
     <string name="metros"> m</string>
     <string name="horario_inicio">Horário Início</string>

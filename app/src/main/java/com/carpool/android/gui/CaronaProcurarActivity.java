@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
+public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private SharedPreferences preferences;
@@ -52,7 +52,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
         // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Util.buildToolbarHomeButton(ProcurarCaronaActivity.this, toolbar);
+        Util.buildToolbarHomeButton(CaronaProcurarActivity.this, toolbar);
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -91,7 +91,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
         TimePickerDialog timePickerDialog;
         timePickerDialog = new TimePickerDialog(
-                ProcurarCaronaActivity.this,
+                CaronaProcurarActivity.this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -116,28 +116,29 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
 
-        /*CirclePoints points1 = new CirclePoints(-8.0289460,-34.9218160); // Casa gabi
+
+        /*LatLng points1 = new LatLng(-8.0289460,-34.9218160); // Casa gabi
         pontos.add(points1);
-        CirclePoints points2 = new CirclePoints(-8.01579630,-34.9503266); // Rural
+        LatLng points2 = new LatLng(-8.01579630,-34.9503266); // Rural
         pontos.add(points2);
-        CirclePoints points3 = new CirclePoints(-8.0275370,-34.9137170); // Treze de maio
+        LatLng points3 = new LatLng(-8.0275370,-34.9137170); // Treze de maio
         pontos.add(points3);
-        CirclePoints points4 = new CirclePoints(-8.0291815,-34.9067797); // Hospital
+        LatLng points4 = new LatLng(-8.0291815,-34.9067797); // Hospital
         pontos.add(points4);
-        CirclePoints points5 = new CirclePoints(-8.0291820,-34.9067780); // Qualquer coisa
+        LatLng points5 = new LatLng(-8.0291820,-34.9067780); // Qualquer coisa
         pontos.add(points5);
-        CirclePoints points6 = new CirclePoints(-8.0520590,-34.9451160); // Reitoria UFPE
+        LatLng points6 = new LatLng(-8.0520590,-34.9451160); // Reitoria UFPE
         pontos.add(points6);
-        CirclePoints points7 = new CirclePoints(-8.0486960,-34.9447970); // Sudene
+        LatLng points7 = new LatLng(-8.0486960,-34.9447970); // Sudene
         pontos.add(points7);
-        CirclePoints points8 = new CirclePoints(-8.0588620,-34.9475320); // IFPE
+        LatLng points8 = new LatLng(-8.0588620,-34.9475320); // IFPE
         pontos.add(points8);*/
 
         ArrayList<LatLng> pontosNoRaio = caronaNegocio.procurarCarona(localizacaoAtual, raioAtual);
 
         if (!(pontosNoRaio.size() > 0)){
             Util.showMsgToastLong(
-                    ProcurarCaronaActivity.this,
+                    CaronaProcurarActivity.this,
                     getString(R.string.nenhuma_carona) + getString(R.string.novos_filtros));
         } else {
             int i = 0;
@@ -227,7 +228,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Util.showMsgToastLong(ProcurarCaronaActivity.this, marker.getId().toString());
-        Util.trocarTela(ProcurarCaronaActivity.this, PerfilActivity.class);
+        Util.showMsgToastLong(CaronaProcurarActivity.this, marker.getId().toString());
+        Util.trocarTela(CaronaProcurarActivity.this, CaronaInfoActivity.class);
     }
 }

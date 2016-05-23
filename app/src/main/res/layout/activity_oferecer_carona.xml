@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.carpool.android.gui.OferecerCaronaActivity">
+    tools:context=".gui.CaronaOferecerActivity">
 
     <!-- ActionBar exibido no canto superior -->
     <include
@@ -22,13 +22,8 @@
 
     <Button
         android:id="@+id/btnOferecer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
+        style="@style/btn_acao_principal"
         android:onClick="oferecerCarona"
-        android:text="Oferecer"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:text="@string/btn_oferecer" />
 
 </LinearLayout>

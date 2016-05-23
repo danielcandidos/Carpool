@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class OferecerCaronaActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class CaronaOferecerActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
 
     private CaronaNegocio caronaNegocio = new CaronaNegocio();
@@ -39,7 +39,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements OnMapRe
 
         // Mapeando a toolbar da tela e setando evento de clique para retornar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Util.buildToolbarHomeButton(OferecerCaronaActivity.this, toolbar);
+        Util.buildToolbarHomeButton(CaronaOferecerActivity.this, toolbar);
 
         // Obtendo o SupportMapFragment para ser notificado quando o mapa estiver pronto para uso
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -52,6 +52,12 @@ public class OferecerCaronaActivity extends AppCompatActivity implements OnMapRe
                 intent.getDoubleExtra(getString(R.string.longitude), 0));
     }
 
+    /**
+     * Pega a localização atual e adiciona a lista
+     * de pontos de referência para caronas.
+     *
+     * @param view
+     */
     public void oferecerCarona(View view) {
         //PEGANDO INFORMAÇÕES DO PREFERENCES PARA VERIFICAR LOGIN ANTERIOR
         /*String login = preferences.getString("login", null);
@@ -62,8 +68,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements OnMapRe
 
         // Recuperando Preferences, recuperando lista de pontos e setando novo ponto
         preferences = getSharedPreferences("pontos_referencia", Context.MODE_PRIVATE);
-        /*pontos = (SetStringsPontos) preferences.getStringSet("pontos", new SetStringsPontos());
-        pontos.add(localizacaoAtual.latitude+"/"+localizacaoAtual.longitude);*/
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("pontos", localizacaoAtual.latitude + "/" + localizacaoAtual.longitude);
         editor.commit();

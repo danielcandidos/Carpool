@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="irProcurarCarona"
-            android:text="@string/procurar"
+            android:text="@string/btn_procurar"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="irOferecerCarona"
-            android:text="@string/oferecer"
+            android:text="@string/btn_oferecer"
             android:textColor="@color/white"
             android:textSize="18dp" />
     </LinearLayout>
