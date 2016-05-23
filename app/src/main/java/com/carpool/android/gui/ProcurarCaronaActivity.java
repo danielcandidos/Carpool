@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private SharedPreferences preferences;
     private CaronaNegocio caronaNegocio = new CaronaNegocio();
@@ -187,7 +187,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         // Mapeia um DragListener e um LongClickListener para o mapa
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMapLongClickListener(this);
-        mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
         // Cria um objeto DraggableCircle para inicializar o efeito de raio
         draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
@@ -226,9 +226,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public void onInfoWindowClick(Marker marker) {
+        Util.showMsgToastLong(ProcurarCaronaActivity.this, marker.getId().toString());
         Util.trocarTela(ProcurarCaronaActivity.this, PerfilActivity.class);
-        return false;
     }
-
 }
