@@ -1,7 +1,6 @@
 package com.carpool.android.gui;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.carpool.android.R;
-import com.carpool.android.dominio.CirclePoints;
+import com.carpool.android.negocio.CaronaNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,10 +30,11 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
     private SharedPreferences preferences;
+    private CaronaNegocio caronaNegocio = new CaronaNegocio();
 
     private static final int RADIUS_MAX = 3000;
     private static final int RADIUS_INIT = 1000;
-    private int mRadiusValue;
+    private int raioAtual;
     private LatLng localizacaoAtual;
 
     private DraggableCircle draggableCircle;
@@ -65,7 +65,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         seekbarRaio = (SeekBar) findViewById(R.id.seekbarRaio);
         seekbarRaio.setMax(RADIUS_MAX);
         seekbarRaio.setProgress(RADIUS_INIT);
-        mRadiusValue = seekbarRaio.getProgress();
+        raioAtual = seekbarRaio.getProgress();
 
         // Mapeando EditText que abrem Pickers de horarios
         edtHorarioInicio = (EditText) findViewById(R.id.edtHorarioInicio);
@@ -78,14 +78,16 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                 intent.getDoubleExtra(getString(R.string.longitude), 0));
     }
 
-    // Método para selecionar horário de inicio e fim para busca de caronas
+    /**
+     * Método para selecionar horário de inicio e fim para busca de caronas
+     *
+     * @param view
+     */
     public void setTime(View view) {
         final EditText edtHorario = (EditText) view;
-
-        Calendar calendar = Calendar.getInstance();
-
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        Calendar calendario = Calendar.getInstance();
+        int hora = calendario.get(Calendar.HOUR_OF_DAY);
+        int minuto = calendario.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog;
         timePickerDialog = new TimePickerDialog(
@@ -93,12 +95,13 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        edtHorario.setText(selectedHour + ":" + selectedMinute);
+                        String edtHorarioTemp = selectedHour + ":" + selectedMinute;
+                        edtHorario.setText(edtHorarioTemp);
                     }
                 },
-                hour,
-                minute,
-                true);// Yes 24 hour time
+                hora,
+                minuto,
+                true);// 24 horas ou 12 horas am/pm
 
         if (edtHorario.equals(edtHorarioInicio)) {
             timePickerDialog.setTitle(getString(R.string.horario_inicio));
@@ -110,16 +113,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
 
     public void procurarPontos(View view) {
         mMap.clear();
-        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
-
-        ArrayList<CirclePoints> pontos = new ArrayList<CirclePoints>();
-
-        preferences = getSharedPreferences("pontos_referencia", Context.MODE_PRIVATE);
-        //SetStringsPontos pontos2 = (SetStringsPontos) preferences.getStringSet("pontos", new SetStringsPontos());
-        String[] latlon = (preferences.getString("pontos", "")).split("/");
-        CirclePoints point = new CirclePoints(Double.parseDouble(latlon[0]), Double.parseDouble(latlon[1]));
-        pontos.add(point);
 
         /*CirclePoints points1 = new CirclePoints(-8.0289460,-34.9218160); // Casa gabi
         pontos.add(points1);
@@ -138,45 +133,35 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         CirclePoints points8 = new CirclePoints(-8.0588620,-34.9475320); // IFPE
         pontos.add(points8);*/
 
-        ArrayList<CirclePoints> pontosNoRaio = new ArrayList<CirclePoints>();
+        ArrayList<LatLng> pontosNoRaio = caronaNegocio.procurarCarona(localizacaoAtual, raioAtual);
 
-        for (CirclePoints points : pontos) {
-            if ((6371
-                    * Math.acos(
-                    //Math.cos(Math.toRadians(-8.0268792)) *
-                    Math.cos(Math.toRadians(localizacaoAtual.latitude)) *
-                            Math.cos(Math.toRadians(points.getLatitude())) *
-                            //Math.cos(Math.toRadians(-34.9147138) - Math.toRadians(points.getLongitude())) +
-                            Math.cos(Math.toRadians(localizacaoAtual.longitude) - Math.toRadians(points.getLongitude())) +
-                            //Math.sin(Math.toRadians(-8.0268792)) *
-                            Math.sin(Math.toRadians(localizacaoAtual.latitude)) *
-                                    Math.sin(Math.toRadians(points.getLatitude())))
-            ) <= (mRadiusValue / 1000)) {
-
-                pontosNoRaio.add(points);
-
+        if (!(pontosNoRaio.size() > 0)){
+            Util.showMsgToastLong(
+                    ProcurarCaronaActivity.this,
+                    getString(R.string.nenhuma_carona) + getString(R.string.novos_filtros));
+        } else {
+            int i = 0;
+            for (LatLng points : pontosNoRaio) {
+                i += 1;
+                LatLng agora = new LatLng(points.latitude, points.longitude);
+                mMap.addMarker(new MarkerOptions()
+                        .position(agora)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
+                        .title("Ponto" + i));
             }
         }
 
-        int i = 0;
-        for (CirclePoints points : pontosNoRaio) {
-            i += 1;
-            LatLng agora = new LatLng(points.getLatitude(), points.getLongitude());
-            mMap.addMarker(new MarkerOptions()
-                    .position(agora)
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
-                    .title("Ponto" + i));
-        }
     }
 
     /// - - - - - - - REGION SEEKBAR LISTENER - - - - - - - ///
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekBar == seekbarRaio) {
-            mRadiusValue = seekbarRaio.getProgress();
-            txtRaio.setText("Raio de busca: " + mRadiusValue + " m");
+            raioAtual = seekbarRaio.getProgress();
+            String txtRaioTemp = getString(R.string.raio_de_busca) + raioAtual + getString(R.string.metros);
+            txtRaio.setText(txtRaioTemp);
         }
-        draggableCircle.setRadius(mRadiusValue);
+        draggableCircle.setRadius(raioAtual);
         mMap = draggableCircle.getmMap();
     }
 
@@ -205,7 +190,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
         mMap.setOnMarkerClickListener(this);
 
         // Cria um objeto DraggableCircle para inicializar o efeito de raio
-        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
 
         // Move the map so that it is centered on the initial circle
@@ -236,7 +221,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity implements SeekBar
     public void onMapLongClick(LatLng latLng) {
         mMap.clear();
         localizacaoAtual = latLng;
-        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, mRadiusValue);
+        draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
     }
 
