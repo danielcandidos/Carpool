@@ -7,16 +7,17 @@
     android:orientation="vertical"
     tools:context="com.carpool.android.gui.MainActivity">
 
-    <!-- ActionBar exibido no canto superior -->
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="40dp"
         android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="TESTEEEEEEEEEEEEEEEE"/>
 
 </LinearLayout>
