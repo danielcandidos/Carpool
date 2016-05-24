@@ -75,6 +75,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // Adiciona um marcador no mapa para a localizacao atual
                 mMap.addMarker(new MarkerOptions()
                         .position(localizacaoAtual)
+                        .anchor(0.5f, 1.0f)
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool)));
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacaoAtual, 15.0f));

@@ -78,6 +78,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         // Mapeia um DragListener e um LongClickListener para o mapa
         mMap.setOnMarkerDragListener(this);
@@ -96,8 +97,9 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     private void setMarker(LatLng localizacao, boolean zoom) {
         mMap.addMarker(new MarkerOptions()
                 .position(localizacao)
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool)))
-                .setDraggable(true);
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0))
+                //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
+                .draggable(true));
         if (zoom){
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacao, 15.0f));
         }
@@ -111,25 +113,21 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
         this.setMarker(localizacaoAtual, false);
     }
 
-    private void onMarkerMoved(Marker marker) {
-        mMap.clear();
-        localizacaoAtual = marker.getPosition();
-
-        this.setMarker(localizacaoAtual, false);
-    }
-
     @Override
     public void onMarkerDragStart(Marker marker) {
-        this.onMarkerMoved(marker);
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_x));
+        //marker.setAnchor(0.5f, 2.0f);
     }
 
     @Override
     public void onMarkerDrag(Marker marker) {
-        this.onMarkerMoved(marker);
+
     }
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        this.onMarkerMoved(marker);
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0));
+        //marker.setAnchor(0.5f, 1.0f);
     }
+
 }
