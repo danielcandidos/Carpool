@@ -22,11 +22,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 public class CaronaOferecerActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private CaronaNegocio caronaNegocio = new CaronaNegocio();
-    private SharedPreferences preferences;
     private ArrayList<LatLng> pontosReferencia = new ArrayList<>();
+    private ArrayList<Marker> listaMarcadores = new ArrayList<>();
+
 
     private LatLng localizacaoAtual;
     private Toolbar toolbar;
@@ -59,20 +60,13 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
      * @param view
      */
     public void oferecerCarona(View view) {
-        //PEGANDO INFORMAÇÕES DO PREFERENCES PARA VERIFICAR LOGIN ANTERIOR
-        /*String login = preferences.getString("login", null);
-        String senha = preferences.getString("senha", null);*/
-
-        pontosReferencia.add(localizacaoAtual);
+        //pontosReferencia.add(localizacaoAtual);
+        for (Marker marcador : listaMarcadores) {
+            pontosReferencia.add(marcador.getPosition());
+        }
         caronaNegocio.oferecerCarona(pontosReferencia);
 
-        // Recuperando Preferences, recuperando lista de pontos e setando novo ponto
-        preferences = getSharedPreferences("pontos_referencia", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("pontos", localizacaoAtual.latitude + "/" + localizacaoAtual.longitude);
-        editor.commit();
-
-        Util.showMsgToastLong(CaronaOferecerActivity.this, "Ponto adicionado!");
+        Util.showMsgToastShort(CaronaOferecerActivity.this, "Sua carona foi ofertada! ;)");
     }
 
     @Override
@@ -83,6 +77,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
         // Mapeia um DragListener e um LongClickListener para o mapa
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMapLongClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
         this.setMarker(localizacaoAtual, true);
     }
@@ -95,28 +90,31 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
      * @param zoom - se terá ou não zoom ao marcador inserido
      */
     private void setMarker(LatLng localizacao, boolean zoom) {
-        mMap.addMarker(new MarkerOptions()
+        Marker marcadorNovo = mMap.addMarker(new MarkerOptions()
                 .position(localizacao)
+                .title(" x")
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0))
-                //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
+                        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
                 .draggable(true));
         if (zoom){
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacao, 15.0f));
         }
+        this.listaMarcadores.add(marcadorNovo);
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        mMap.clear();
+        //mMap.clear();
         localizacaoAtual = latLng;
-
         this.setMarker(localizacaoAtual, false);
+        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto adicionado!");
     }
 
     @Override
     public void onMarkerDragStart(Marker marker) {
         marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_x));
         //marker.setAnchor(0.5f, 2.0f);
+        this.listaMarcadores.remove(marker);
     }
 
     @Override
@@ -128,6 +126,14 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     public void onMarkerDragEnd(Marker marker) {
         marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0));
         //marker.setAnchor(0.5f, 1.0f);
+        this.listaMarcadores.add(marker);
+        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto adicionado!");
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        this.listaMarcadores.remove(marker); // remove o marcador da lista de marcadores
+        marker.remove(); // remove o marcador do mapa
+        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto removido!");
+    }
 }
