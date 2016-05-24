@@ -71,6 +71,8 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("pontos", localizacaoAtual.latitude + "/" + localizacaoAtual.longitude);
         editor.commit();
+
+        Util.showMsgToastLong(CaronaOferecerActivity.this, "Ponto adicionado!");
     }
 
     @Override

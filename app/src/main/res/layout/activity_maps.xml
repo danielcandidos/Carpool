@@ -27,25 +27,19 @@
 
         <Button
             android:id="@+id/btnProcurar"
+            style="@style/btn_acao_principal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
             android:onClick="irProcurarCarona"
-            android:text="@string/btn_procurar"
-            android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:text="@string/btn_procurar" />
 
         <Button
             android:id="@+id/btnOferecer"
+            style="@style/btn_acao_principal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
             android:onClick="irOferecerCarona"
-            android:text="@string/btn_oferecer"
-            android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:text="@string/btn_oferecer" />
     </LinearLayout>
 
 </LinearLayout>
