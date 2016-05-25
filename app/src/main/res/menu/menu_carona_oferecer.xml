@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/acao_favoritos"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Seus Itinerários"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/acao_hora"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Horário"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/acao_filtro"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="Filtros"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/acao_enviar"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Enviar"
+        app:showAsAction="ifRoom"/>
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/acao_config"
+        android:title="Configurações"
+        app:showAsAction="never"/>
+
+</menu>

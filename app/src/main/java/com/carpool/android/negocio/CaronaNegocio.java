@@ -1,5 +1,7 @@
 package com.carpool.android.negocio;
 
+import com.carpool.android.dominio.Carona;
+import com.carpool.android.dominio.Itinerario;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -7,6 +9,26 @@ import java.util.ArrayList;
 public class CaronaNegocio {
 
     private static ArrayList<LatLng> listaDePontos = new ArrayList<>();
+    private static Itinerario itinerarioOferecido;
+
+    public void validarItinerario(Itinerario itinerario){
+        if (true){
+            this.itinerarioOferecido = itinerario;
+        }
+    }
+
+    public Itinerario getItinerario(){
+        return this.itinerarioOferecido;
+    }
+
+    public void oferecerCarona(Carona carona){
+        this.validarCarona(carona);
+        // chama persistencia para cadastrar no banco e trata erros retornados, se não tiver nenhum, finaliza, confirmando a carona
+    }
+
+    public boolean validarCarona(Carona carona){
+        return true;
+    }
 
     public ArrayList<LatLng> procurarCarona(LatLng localizacaoAtual, double raio){
 
@@ -31,18 +53,6 @@ public class CaronaNegocio {
 
     public void pedirCarona(){
 
-    }
-
-    public void oferecerCarona(ArrayList<LatLng> pontosReferenciaMotorista){
-        //chamar persistencia
-        for (LatLng coordenada : pontosReferenciaMotorista) {
-            listaDePontos.add(coordenada);
-        }
-    }
-
-    public void oferecerCarona(LatLng pontoReferenciaMotorista){
-        //chamar persistencia
-        listaDePontos.add(pontoReferenciaMotorista);
     }
 
     public void aceitarCaroneiro(){

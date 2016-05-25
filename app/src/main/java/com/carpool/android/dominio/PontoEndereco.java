@@ -4,7 +4,8 @@ package com.carpool.android.dominio;
 import com.google.android.gms.maps.model.LatLng;
 
 public class PontoEndereco {
-    private LatLng coordenada;
+    private double latitude;
+    private double longitude;
     private String cep;
     private String nomeRua;
     private String bairro;
@@ -13,12 +14,20 @@ public class PontoEndereco {
     private String pais;
     private int numero;
 
-    public LatLng getCoordenada() {
-        return coordenada;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCoordenada(LatLng coordenada) {
-        this.coordenada = coordenada;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getCep() {
@@ -76,5 +85,4 @@ public class PontoEndereco {
     public void setNumero(int numero) {
         this.numero = numero;
     }
-
 }

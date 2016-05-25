@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.carpool.android.gui.CaronaConfirmarActivity">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="90"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/textview_confirmar_carona"
+                    android:text="Nome da Carona:" />
+
+                <EditText
+                    android:id="@+id/edtNomeCarona"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/textview_confirmar_carona"
+                    android:text="Carro:" />
+
+                <EditText
+                    android:id="@+id/edtCarroCarona"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:onClick="setCarro"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/textview_confirmar_carona"
+                    android:text="Horário de partida:" />
+
+                <EditText
+                    android:id="@+id/edtHorarioPartidaCarona"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:onClick="setHorarioPartida"
+                    android:text="@string/hora_minuto"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/textview_confirmar_carona"
+                    android:text="Número de vagas:" />
+
+                <Spinner
+                    android:id="@+id/spnVagasCarona"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:textAlignment="center"></Spinner>
+
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConfirmarOferecerCarona"
+        style="@style/btn_acao_principal"
+        android:onClick="confirmarOferecerCarona"
+        android:text="Confirmar" />
+
+</LinearLayout>

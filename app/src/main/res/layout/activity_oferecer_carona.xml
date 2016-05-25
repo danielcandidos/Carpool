@@ -20,6 +20,71 @@
         android:layout_height="wrap_content"
         android:layout_weight="90" />
 
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="-25dp"
+                android:layout_weight="1"
+                android:text="Salvar itinerário:"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/cbSalvarItinerario"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="-25dp"
+                android:layout_weight="1"
+                android:text="Partida às"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/edtHorarioPartida"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="setTime"
+                android:text="@string/hora_minuto"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnOferecer"
         style="@style/btn_acao_principal"

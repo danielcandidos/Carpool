@@ -6,9 +6,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.carpool.android.R;
+import com.carpool.android.dominio.Carona;
+import com.carpool.android.dominio.Itinerario;
+import com.carpool.android.dominio.PontoEndereco;
+import com.carpool.android.dominio.PontoReferencia;
 import com.carpool.android.negocio.CaronaNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,9 +32,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private CaronaNegocio caronaNegocio = new CaronaNegocio();
-    private ArrayList<LatLng> pontosReferencia = new ArrayList<>();
     private ArrayList<Marker> listaMarcadores = new ArrayList<>();
-
 
     private LatLng localizacaoAtual;
     private Toolbar toolbar;
@@ -53,22 +58,48 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
                 intent.getDoubleExtra(getString(R.string.longitude), 0));
     }
 
-    /**
-     * Pega a localização atual e adiciona a lista
-     * de pontos de referência para caronas.
-     *
-     * @param view
-     */
     public void oferecerCarona(View view) {
-        //pontosReferencia.add(localizacaoAtual);
-        for (Marker marcador : listaMarcadores) {
-            pontosReferencia.add(marcador.getPosition());
-        }
-        caronaNegocio.oferecerCarona(pontosReferencia);
+        Itinerario itinerarioCriado = this.montarItinerario(); // monta e cria uma instancia de Itinerário
 
-        Util.showMsgToastShort(CaronaOferecerActivity.this, "Sua carona foi ofertada! ;)");
+        // chama metodo de negocio para verificar Itinerario
+        try {
+            caronaNegocio.validarItinerario(itinerarioCriado);
+        } catch (Exception exception){
+            // TRATAR ERRO
+        }
+        // com tudo certo, com o itinerário já salvo estaticamente em negócio, chama tela de confirmação de carona
+        Util.trocarTela(CaronaOferecerActivity.this, CaronaConfirmarActivity.class);
     }
 
+    private Itinerario montarItinerario(){
+        ArrayList<PontoReferencia> listaPontosReferencia =  new ArrayList<>();
+
+        for (Marker marcador : listaMarcadores) {
+            LatLng ponto = marcador.getPosition();
+
+            PontoEndereco pontoEndereco = new PontoEndereco();
+            pontoEndereco.setLatitude(ponto.latitude);
+            pontoEndereco.setLongitude(ponto.longitude);
+
+            PontoReferencia pontoReferencia = new PontoReferencia();
+            pontoReferencia.setAtivo(true);
+            pontoReferencia.setNomePonto("Nome provisório");
+            pontoReferencia.setPonto(pontoEndereco);
+
+            listaPontosReferencia.add(pontoReferencia);
+        }
+
+        Itinerario itinerario = new Itinerario();
+        itinerario.setNomeItinerario("Nome provisório");
+        itinerario.setMotorista(null);
+        itinerario.setOrigem(null);
+        itinerario.setDestino(null);
+        itinerario.setListaPontosReferencia(listaPontosReferencia);
+
+        return itinerario;
+    }
+
+    /// - - - - - - - - - AÇÕES DO MAPA - - - - - - - - - ///
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -92,48 +123,98 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     private void setMarker(LatLng localizacao, boolean zoom) {
         Marker marcadorNovo = mMap.addMarker(new MarkerOptions()
                 .position(localizacao)
-                .title(" x")
+                .title("  x")
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0))
-                        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool))
                 .draggable(true));
         if (zoom){
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacao, 15.0f));
         }
-        this.listaMarcadores.add(marcadorNovo);
+        this.listaMarcadores.add(marcadorNovo); // adiciona o marcador na lista de marcadores
     }
 
+    /**
+     * Chamado quando ocorre um longo clique no mapa
+     *
+     * @param latLng
+     */
     @Override
     public void onMapLongClick(LatLng latLng) {
-        //mMap.clear();
         localizacaoAtual = latLng;
         this.setMarker(localizacaoAtual, false);
-        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto adicionado!");
+        Util.showMsgToastShort(CaronaOferecerActivity.this, getString(R.string.msg_ponto_adicionado));
     }
 
+    /**
+     * Chamado quando um marcador começa a ser arrastado
+     *
+     * @param marker
+     */
     @Override
     public void onMarkerDragStart(Marker marker) {
-        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_x));
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_x)); // troca para a imagem do marcador com um X na base
         //marker.setAnchor(0.5f, 2.0f);
-        this.listaMarcadores.remove(marker);
+        this.listaMarcadores.remove(marker); // remove o marcador da lista de marcadores
     }
 
+    /**
+     * Chamado constantemente durante o movimento do marcador
+     * @param marker
+     */
     @Override
     public void onMarkerDrag(Marker marker) {
 
     }
 
+    /**
+     * Chamado ao término do movimento do marcador
+     *
+     * @param marker
+     */
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0));
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.carpool_test_0)); // troca para a imagem normal do marcador
         //marker.setAnchor(0.5f, 1.0f);
-        this.listaMarcadores.add(marker);
-        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto adicionado!");
+        this.listaMarcadores.add(marker); // adiciona o marcador na lista de marcadores
+        Util.showMsgToastShort(CaronaOferecerActivity.this, getString(R.string.msg_ponto_alterado));
     }
 
+    /**
+     * Chamado quando a janela de informações de algum marcador é clicada
+     *
+     * @param marker
+     */
     @Override
     public void onInfoWindowClick(Marker marker) {
         this.listaMarcadores.remove(marker); // remove o marcador da lista de marcadores
         marker.remove(); // remove o marcador do mapa
-        Util.showMsgToastShort(CaronaOferecerActivity.this, "Ponto removido!");
+        Util.showMsgToastShort(CaronaOferecerActivity.this, getString(R.string.msg_ponto_removido));
+    }
+
+    /// - - - - - - - - - AÇÕES DO MENU - - - - - - - - - ///
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_carona_oferecer, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            /*case R.id.action_settings:
+                Util.showMsgToast(MainActivity2.this, "Configurações");
+                return true;
+
+            case R.id.action_favorite:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Util.showMsgToast(MainActivity2.this, "Favoritos");
+                return true;*/
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -42,20 +42,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".gui.MapsActivity"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <!--<activity-->
-            <!--android:name=".gui.LoginActivity"-->
-            <!--android:label="@string/title_activity_login" />-->
-        <!--<activity android:name=".gui.MainActivity" />-->
+        <!-- <activity -->
+        <!-- android:name=".gui.LoginActivity" -->
+        <!-- android:label="@string/title_activity_login" /> -->
+        <!-- <activity android:name=".gui.MainActivity" /> -->
         <activity
             android:name=".gui.CaronaProcurarActivity"
             android:label="@string/title_activity_procurar_carona"
@@ -70,7 +71,8 @@
         <activity android:name=".gui.PessoaActivity" />
         <activity
             android:name=".gui.CaronaInfoActivity"
-            android:label="@string/title_activity_info_carona"></activity>
+            android:label="@string/title_activity_info_carona" />
+        <activity android:name=".gui.CaronaConfirmarActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,5 @@
 <resources>
+    <!-- Strings do nome do app de activities -->
     <string name="app_name">Carpool</string>
     <string name="title_activity_maps">Mapa</string>
     <string name="title_activity_login">Entrar</string>
@@ -19,19 +20,30 @@
 
     <!-- Strings botões e telas -->
     <string name="btn_procurar">Procurar</string>
-    <string name="btn_oferecer">Oferecer</string>
     <string name="btn_pedir">Pedir Carona</string>
+    <string name="btn_oferecer">Oferecer</string>
+    <string name="btn_confirmar">Confirmar</string>
     <string name="btn_ver_perfil">Ver Perfil</string>
     <string name="raio_de_busca">Raio de busca: </string>
     <string name="metros"> m</string>
     <string name="horario_inicio">Horário Início</string>
     <string name="horario_fim">Horário Fim</string>
+    <string name="horario_partida">Horário de Partida</string>
 
     <!-- Mensagens de info/erro -->
     <string name="carregando_localizacao">Aguarde... Carregando localização.</string>
     <string name="em_desenvolvimento">Em desenvolvimento...</string>
     <string name="nenhuma_carona">Nenhuma carona foi encontrada =/</string>
     <string name="novos_filtros">Tente pesquisar de novo com filtros diferentes! ;)</string>
+    <string name="msg_ponto_adicionado">Ponto adicionado!</string>
+    <string name="msg_ponto_alterado">Ponto alterado!</string>
+    <string name="msg_ponto_removido">Ponto removido!</string>
+
+    <!-- Mensagens de AlertDialogs -->
+    <string name="titulo_trocar_carro">Trocar Carro</string>
+    <string name="msg_trocar_carro">Deseja mesmo alterar o carro?</string>
+    <string name="btn_positivo_sim">Sim</string>
+    <string name="btn_negativo_cancelar">Cancelar</string>
 
     <!-- Strings internas -->
     <string name="latitude">latitude</string>
