@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.carpool.android.R;
-import com.carpool.android.negocio.CaronaNegocio;
+import com.carpool.android.negocio.CaronaProcurarNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,7 +30,7 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private SharedPreferences preferences;
-    private CaronaNegocio caronaNegocio = new CaronaNegocio();
+    private CaronaProcurarNegocio caronaProcurarNegocio = new CaronaProcurarNegocio();
 
     private static final int RADIUS_MAX = 3000;
     private static final int RADIUS_INIT = 1000;
@@ -134,7 +134,7 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         LatLng points8 = new LatLng(-8.0588620,-34.9475320); // IFPE
         pontos.add(points8);*/
 
-        ArrayList<LatLng> pontosNoRaio = caronaNegocio.procurarCarona(localizacaoAtual, raioAtual);
+        ArrayList<LatLng> pontosNoRaio = caronaProcurarNegocio.procurarCarona(localizacaoAtual, raioAtual);
 
         if (!(pontosNoRaio.size() > 0)){
             Util.showMsgToastLong(
@@ -154,7 +154,7 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
 
     }
 
-    /// - - - - - - - REGION SEEKBAR LISTENER - - - - - - - ///
+    /// - - - - - - - AÇÕES SEEKBAR - - - - - - - ///
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekBar == seekbarRaio) {
@@ -168,16 +168,15 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        // Don't do anything here.
+
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        // Don't do anything here.
+
     }
 
-
-    /// - - - - - - - REGION ON MAP READER - - - - - - - ///
+    /// - - - - - - - AÇÕES DO MAPA - - - - - - - ///
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -217,7 +216,11 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         localizacaoAtual = draggableCircle.onMarkerMoved(marker);
     }
 
-    // Metódo para gerar novo circulo, com clique longo no mapa
+    /**
+     * Metódo para gerar novo circulo, com clique longo no mapa
+     *
+     * @param latLng
+     */
     @Override
     public void onMapLongClick(LatLng latLng) {
         mMap.clear();

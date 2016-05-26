@@ -15,13 +15,13 @@ import com.carpool.android.R;
 import com.carpool.android.dominio.Carona;
 import com.carpool.android.dominio.Carro;
 import com.carpool.android.dominio.Itinerario;
-import com.carpool.android.negocio.CaronaNegocio;
+import com.carpool.android.negocio.CaronaOferecerNegocio;
 
 import java.util.Calendar;
 
 public class CaronaConfirmarActivity extends AppCompatActivity {
 
-    private CaronaNegocio caronaNegocio;
+    private CaronaOferecerNegocio caronaOferecerNegocio;
     private Carro carro;
 
     private Toolbar toolbar;
@@ -43,7 +43,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         edtHorarioPartidaCarona = (EditText) findViewById(R.id.edtHorarioPartidaCarona);
         spnVagasCarona = (Spinner) findViewById(R.id.spnVagasCarona);
 
-        caronaNegocio = new CaronaNegocio();
+        caronaOferecerNegocio = new CaronaOferecerNegocio();
     }
 
     /**
@@ -107,7 +107,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
     public void confirmarOferecerCarona(View view) {
         Carona caronaMontada = this.montarCarona();
         try {
-            caronaNegocio.oferecerCarona(caronaMontada);
+            caronaOferecerNegocio.oferecerCarona(caronaMontada);
         } catch (Exception exception){
             // TRATAR ERRO
         }
@@ -116,7 +116,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
     }
 
     private Carona montarCarona() {
-        Itinerario itinerario = caronaNegocio.getItinerario();
+        Itinerario itinerario = caronaOferecerNegocio.getItinerario();
 
         Carona caronaNova = new Carona();
         caronaNova.setNomeCarona(edtNomeCarona.getText().toString());

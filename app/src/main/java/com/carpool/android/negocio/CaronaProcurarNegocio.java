@@ -1,33 +1,18 @@
 package com.carpool.android.negocio;
 
-import com.carpool.android.dominio.Carona;
-import com.carpool.android.dominio.Itinerario;
+
+import com.carpool.android.dominio.PontoEndereco;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class CaronaNegocio {
+public class CaronaProcurarNegocio {
 
     private static ArrayList<LatLng> listaDePontos = new ArrayList<>();
-    private static Itinerario itinerarioOferecido;
 
-    public void validarItinerario(Itinerario itinerario){
-        if (true){
-            this.itinerarioOferecido = itinerario;
-        }
-    }
+    public void procurarCaronas(PontoEndereco pontoEndereco, double raio){
 
-    public Itinerario getItinerario(){
-        return this.itinerarioOferecido;
-    }
 
-    public void oferecerCarona(Carona carona){
-        this.validarCarona(carona);
-        // chama persistencia para cadastrar no banco e trata erros retornados, se não tiver nenhum, finaliza, confirmando a carona
-    }
-
-    public boolean validarCarona(Carona carona){
-        return true;
     }
 
     public ArrayList<LatLng> procurarCarona(LatLng localizacaoAtual, double raio){

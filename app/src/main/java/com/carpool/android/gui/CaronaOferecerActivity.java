@@ -1,8 +1,6 @@
 package com.carpool.android.gui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.carpool.android.R;
-import com.carpool.android.dominio.Carona;
 import com.carpool.android.dominio.Itinerario;
 import com.carpool.android.dominio.PontoEndereco;
 import com.carpool.android.dominio.PontoReferencia;
-import com.carpool.android.negocio.CaronaNegocio;
+import com.carpool.android.negocio.CaronaOferecerNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,7 +28,7 @@ import java.util.ArrayList;
 public class CaronaOferecerActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
-    private CaronaNegocio caronaNegocio = new CaronaNegocio();
+    private CaronaOferecerNegocio caronaOferecerNegocio = new CaronaOferecerNegocio();
     private ArrayList<Marker> listaMarcadores = new ArrayList<>();
 
     private LatLng localizacaoAtual;
@@ -63,7 +60,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
 
         // chama metodo de negocio para verificar Itinerario
         try {
-            caronaNegocio.validarItinerario(itinerarioCriado);
+            caronaOferecerNegocio.validarItinerario(itinerarioCriado);
         } catch (Exception exception){
             // TRATAR ERRO
         }
