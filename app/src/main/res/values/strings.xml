@@ -63,4 +63,7 @@
         completions."
     </string>
 
+    <!-- Facebook Login -->
+    <string name="facebook_app_id">1539986336310592</string>
+
 </resources>
