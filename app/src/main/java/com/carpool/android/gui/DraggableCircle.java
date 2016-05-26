@@ -11,9 +11,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DraggableCircle {
 
-    private final int mStrokeColor = -16777216;
+    private final int mStrokeColor = -7829368;
     private final int mFillColor = 680656640;
-    private final int mWidthValue = 5;
+    private final int mWidthValue = 3;
 
     private GoogleMap mMap;
     private final Marker centerMarker;

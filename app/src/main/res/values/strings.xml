@@ -25,7 +25,9 @@
     <string name="btn_confirmar">Confirmar</string>
     <string name="btn_ver_perfil">Ver Perfil</string>
     <string name="raio_de_busca">Raio de busca: </string>
-    <string name="metros"> m</string>
+    <string name="metros"> metros</string>
+    <string name="raio_de_busca_default">Raio de busca: 1000 metros</string>
+    <string name="as">às</string>
     <string name="horario_inicio">Horário Início</string>
     <string name="horario_fim">Horário Fim</string>
     <string name="horario_partida">Horário de Partida</string>
