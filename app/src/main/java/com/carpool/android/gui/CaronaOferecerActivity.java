@@ -191,7 +191,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_carona_oferecer, menu);
+//        inflater.inflate(R.menu.menu_carona_oferecer, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
