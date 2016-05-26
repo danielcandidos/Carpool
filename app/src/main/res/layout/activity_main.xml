@@ -7,27 +7,34 @@
     android:orientation="vertical"
     tools:context="com.carpool.android.gui.MainActivity">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_margin="70dp"
-        android:src="@drawable/logo" />
+        android:layout_weight="90"
+        android:orientation="vertical">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/logo"/>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:elevation="5dp"
+            android:textSize="24dp"/>
+
+    </LinearLayout>
 
     <Button
         android:onClick="seguir"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_weight="8"
+        style="@style/btn_acao_principal"
         android:text="seguir"/>
 
 </LinearLayout>
