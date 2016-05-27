@@ -63,4 +63,8 @@ public class CaronaProcurarNegocio {
         return pontosNoRaio;
     }
 
+    public void validarAgora(){
+
+    }
+
 }
