@@ -2,9 +2,6 @@ package com.carpool.android.negocio;
 
 import com.carpool.android.dominio.Carona;
 import com.carpool.android.dominio.Itinerario;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
 
 public class CaronaOferecerNegocio {
 
@@ -29,6 +26,8 @@ public class CaronaOferecerNegocio {
         return true;
     }
 
+    public void aceitarCaroneiro(){
 
+    }
 
 }

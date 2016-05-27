@@ -121,8 +121,8 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         Carona caronaNova = new Carona();
         caronaNova.setNomeCarona(edtNomeCarona.getText().toString());
         caronaNova.setCarro(carro);
-        caronaNova.setHorario(edtHorarioPartidaCarona.getText().toString());
-        caronaNova.setVagas(Integer.valueOf(spnVagasCarona.getSelectedItem().toString()));
+        caronaNova.setHorarioSaida(edtHorarioPartidaCarona.getText().toString());
+        caronaNova.setVagasCarona(Integer.valueOf(spnVagasCarona.getSelectedItem().toString()));
         caronaNova.setItinerario(itinerario);
 
         return caronaNova;

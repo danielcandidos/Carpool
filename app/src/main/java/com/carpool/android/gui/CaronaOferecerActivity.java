@@ -12,7 +12,6 @@ import android.view.View;
 import com.carpool.android.R;
 import com.carpool.android.dominio.Itinerario;
 import com.carpool.android.dominio.PontoEndereco;
-import com.carpool.android.dominio.PontoReferencia;
 import com.carpool.android.negocio.CaronaOferecerNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -69,7 +68,7 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
     }
 
     private Itinerario montarItinerario(){
-        ArrayList<PontoReferencia> listaPontosReferencia =  new ArrayList<>();
+        ArrayList<PontoEndereco> listaPontosReferencia =  new ArrayList<>();
 
         for (Marker marcador : listaMarcadores) {
             LatLng ponto = marcador.getPosition();
@@ -78,20 +77,13 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
             pontoEndereco.setLatitude(ponto.latitude);
             pontoEndereco.setLongitude(ponto.longitude);
 
-            PontoReferencia pontoReferencia = new PontoReferencia();
-            pontoReferencia.setAtivo(true);
-            pontoReferencia.setNomePonto("Nome provisório");
-            pontoReferencia.setPonto(pontoEndereco);
-
-            listaPontosReferencia.add(pontoReferencia);
+            listaPontosReferencia.add(pontoEndereco);
         }
 
         Itinerario itinerario = new Itinerario();
         itinerario.setNomeItinerario("Nome provisório");
         itinerario.setMotorista(null);
-        itinerario.setOrigem(null);
-        itinerario.setDestino(null);
-        itinerario.setListaPontosReferencia(listaPontosReferencia);
+        itinerario.setListaPontosEndereco(listaPontosReferencia);
 
         return itinerario;
     }

@@ -13,6 +13,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.carpool.android.R;
+import com.carpool.android.dominio.Carona;
+import com.carpool.android.dominio.FiltroCarona;
+import com.carpool.android.dominio.PontoEndereco;
 import com.carpool.android.negocio.CaronaProcurarNegocio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,8 +32,8 @@ import java.util.Calendar;
 public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
-    private SharedPreferences preferences;
     private CaronaProcurarNegocio caronaProcurarNegocio = new CaronaProcurarNegocio();
+    private ArrayList<Carona> listaCaronasVisiveis = new ArrayList<>();
 
     private static final int RADIUS_MAX = 3000;
     private static final int RADIUS_INIT = 1000;
@@ -116,7 +119,6 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
 
-
         /*LatLng points1 = new LatLng(-8.0289460,-34.9218160); // Casa gabi
         pontos.add(points1);
         LatLng points2 = new LatLng(-8.01579630,-34.9503266); // Rural
@@ -134,21 +136,39 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         LatLng points8 = new LatLng(-8.0588620,-34.9475320); // IFPE
         pontos.add(points8);*/
 
-        ArrayList<LatLng> pontosNoRaio = caronaProcurarNegocio.procurarCarona(localizacaoAtual, raioAtual);
+        PontoEndereco pontoBusca = new PontoEndereco();
+        pontoBusca.setLatitude(this.localizacaoAtual.latitude);
+        pontoBusca.setLongitude(this.localizacaoAtual.longitude);
 
-        if (!(pontosNoRaio.size() > 0)){
+        FiltroCarona filtroCarona = new FiltroCarona();
+        filtroCarona.setPontoBusca(pontoBusca);
+        filtroCarona.setRaio(raioAtual);
+        filtroCarona.setHorarioInicio(edtHorarioInicio.getText().toString());
+        filtroCarona.setHorarioFim(edtHorarioFim.getText().toString());
+        filtroCarona.setPagar(true);
+
+        try {
+            listaCaronasVisiveis = caronaProcurarNegocio.procurarCaronas(filtroCarona);
+        } catch (Exception e) {
+            //TRATAR ERRO
+            e.printStackTrace();
+        }
+
+        if (!(listaCaronasVisiveis.size() > 0)){
             Util.showMsgToastLong(
                     CaronaProcurarActivity.this,
                     getString(R.string.nenhuma_carona) + getString(R.string.novos_filtros));
         } else {
             int i = 0;
-            for (LatLng points : pontosNoRaio) {
-                i += 1;
-                LatLng agora = new LatLng(points.latitude, points.longitude);
-                mMap.addMarker(new MarkerOptions()
-                        .position(agora)
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
-                        .title("Ponto" + i));
+            for (Carona carona : listaCaronasVisiveis) {
+                for (PontoEndereco ponto : carona.getItinerario().getListaPontosEndereco()) {
+                    i += 1;
+                    LatLng pontoParadaCarona = new LatLng(ponto.getLatitude(), ponto.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(pontoParadaCarona)
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
+                            .title(carona.getNomeCarona()+ " Ponto" + i));
+                }
             }
         }
 
