@@ -1,5 +1,6 @@
 package com.carpool.android.gui;
 
+import com.carpool.android.negocio.UsuarioNegocio;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -89,21 +90,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getFacebookData(AccessToken accessToken, Profile profile) {
+
         System.out.println("---------------------");
-        System.out.println("--Facebook Login Successful!");
-        System.out.println("--Logged in user Details : ");
+        System.out.println("> Facebook Login Successful!");
         System.out.println("---------------------");
-        System.out.println("--User ID : " + accessToken.getUserId());
-        System.out.println("--Authentication Token : " + accessToken.getToken());
-//        System.out.println("---------------------");
-//        System.out.println("--First Name : " + profile.getFirstName());
-//        System.out.println("--Last Name : " + profile.getLastName());
-        System.out.println("--URL Perfil: " + profile.getLinkUri());
-        System.out.println("--URL Imagem: " + profile.getProfilePictureUri(500, 500));
+        System.out.println("> User ID : " + accessToken.getUserId());
+        System.out.println("> Authentication Token : " + accessToken.getToken());
+        System.out.println("> URL Perfil: " + profile.getLinkUri());
+        System.out.println("> URL Imagem: " + profile.getProfilePictureUri(500, 500));
+        System.out.println("> ID : " + profile.getId());
+        System.out.println("> Name : " + profile.getName());
         System.out.println("---------------------");
-        System.out.println("--ID : " + profile.getId());
-        System.out.println("--Name : " + profile.getName());
-        System.out.println("---------------------");
+
+        UsuarioNegocio user = new UsuarioNegocio();
+        user.setNome(profile.getName());
+        user.setFacebookID(accessToken.getUserId());
+        user.setToken(accessToken.getToken());
+        user.setProfilePicture(profile.getProfilePictureUri(500,500));
+        user.setProfileLink(profile.getLinkUri());
     }
 
     public void seguir(View view) {
