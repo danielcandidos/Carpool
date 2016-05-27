@@ -16,11 +16,11 @@ public class CaronaOferecerNegocio {
     public Itinerario getItinerario(){
         return this.itinerarioOferecido;
     }
-
     public void oferecerCarona(Carona carona){
         this.validarCarona(carona);
         // chama persistencia para cadastrar no banco e trata erros retornados, se não tiver nenhum, finaliza, confirmando a carona
     }
+
 
     public boolean validarCarona(Carona carona){
         return true;
