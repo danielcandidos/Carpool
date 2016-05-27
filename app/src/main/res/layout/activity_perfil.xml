@@ -26,9 +26,12 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="3"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:elevation="5dp"
+            android:focusable="true">
 
             <ImageView
+                android:id="@+id/user_profile_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -38,14 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1.5"
-                android:padding="15dp">
+                android:layout_weight="1"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/txtPerfilNome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="1dp"
                     android:text="Raffael Vieira"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -54,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtPerfilNome"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="1dp"
                     android:text="DEINFO" />
 
                 <TextView
@@ -74,7 +77,9 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:elevation="5dp"
+            android:contextClickable="true">
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -103,9 +108,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:elevation="5dp">
 
 
         </LinearLayout>
