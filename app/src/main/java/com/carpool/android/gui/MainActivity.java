@@ -1,5 +1,6 @@
 package com.carpool.android.gui;
 
+import com.carpool.android.dominio.Usuario;
 import com.carpool.android.negocio.UsuarioNegocio;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getFacebookData(AccessToken accessToken, Profile profile) {
 
-        System.out.println("---------------------");
+        /*System.out.println("---------------------");
         System.out.println("> Facebook Login Successful!");
         System.out.println("---------------------");
         System.out.println("> User ID : " + accessToken.getUserId());
@@ -100,14 +101,18 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("> URL Imagem: " + profile.getProfilePictureUri(500, 500));
         System.out.println("> ID : " + profile.getId());
         System.out.println("> Name : " + profile.getName());
-        System.out.println("---------------------");
+        System.out.println("---------------------");*/
 
-        UsuarioNegocio user = new UsuarioNegocio();
-        user.setNome(profile.getName());
-        user.setFacebookID(accessToken.getUserId());
-        user.setToken(accessToken.getToken());
-        user.setProfilePicture(profile.getProfilePictureUri(500,500));
-        user.setProfileLink(profile.getLinkUri());
+        Usuario usuario = new Usuario();
+        usuario.setNomeUsuario(profile.getName());
+        usuario.setEmail("");
+        usuario.setIdPerfilFacebook(accessToken.getUserId());
+        usuario.setTokenFacebook(accessToken.getToken());
+        usuario.setUrlPerfil(profile.getLinkUri().toString());
+        usuario.setUrlFoto(profile.getProfilePictureUri(500, 500).toString());
+
+        UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+        usuarioNegocio.setUsuarioLogado(usuario);
     }
 
     public void seguir(View view) {

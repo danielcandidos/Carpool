@@ -1,6 +1,5 @@
 package com.carpool.android.negocio;
 
-
 import com.carpool.android.dominio.Carona;
 import com.carpool.android.dominio.FiltroCarona;
 import com.carpool.android.service.CaronaService;
@@ -61,10 +60,6 @@ public class CaronaProcurarNegocio {
             }
         }
         return pontosNoRaio;
-    }
-
-    public void validarAgora(){
-
     }
 
 }
