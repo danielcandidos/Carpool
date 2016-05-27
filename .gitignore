@@ -48,3 +48,15 @@ Temporary Items
 .idea
 local.properties
 .gradle
+
+.gradle/2.8/taskArtifacts/fileHashes.bin
+
+.gradle/2.8/taskArtifacts/fileHashes.bin
+
+.gradle/2.8/taskArtifacts/taskArtifacts.bin
+
+.gradle/2.8/taskArtifacts/fileSnapshots.bin
+
+.idea/workspace.xml
+
+.gradle/2.8/taskArtifacts/cache.properties.lock
