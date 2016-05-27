@@ -35,7 +35,7 @@
     <!-- Mensagens de info/erro -->
     <string name="carregando_localizacao">Aguarde... Carregando localização.</string>
     <string name="em_desenvolvimento">Em desenvolvimento...</string>
-    <string name="nenhuma_carona">Nenhuma carona foi encontrada =/</string>
+    <string name="nenhuma_carona">Nenhuma carona foi encontrada =/ </string>
     <string name="novos_filtros">Tente pesquisar de novo com filtros diferentes! ;)</string>
     <string name="msg_ponto_adicionado">Ponto adicionado!</string>
     <string name="msg_ponto_alterado">Ponto alterado!</string>

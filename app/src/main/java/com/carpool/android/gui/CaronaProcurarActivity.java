@@ -120,23 +120,6 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
         draggableCircle = new DraggableCircle(mMap, localizacaoAtual, raioAtual);
         mMap = draggableCircle.getmMap();
 
-        /*LatLng points1 = new LatLng(-8.0289460,-34.9218160); // Casa gabi
-        pontos.add(points1);
-        LatLng points2 = new LatLng(-8.01579630,-34.9503266); // Rural
-        pontos.add(points2);
-        LatLng points3 = new LatLng(-8.0275370,-34.9137170); // Treze de maio
-        pontos.add(points3);
-        LatLng points4 = new LatLng(-8.0291815,-34.9067797); // Hospital
-        pontos.add(points4);
-        LatLng points5 = new LatLng(-8.0291820,-34.9067780); // Qualquer coisa
-        pontos.add(points5);
-        LatLng points6 = new LatLng(-8.0520590,-34.9451160); // Reitoria UFPE
-        pontos.add(points6);
-        LatLng points7 = new LatLng(-8.0486960,-34.9447970); // Sudene
-        pontos.add(points7);
-        LatLng points8 = new LatLng(-8.0588620,-34.9475320); // IFPE
-        pontos.add(points8);*/
-
         PontoEndereco pontoBusca = new PontoEndereco();
         pontoBusca.setLatitude(this.localizacaoAtual.latitude);
         pontoBusca.setLongitude(this.localizacaoAtual.longitude);
@@ -150,9 +133,8 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
 
         try {
             listaCaronasVisiveis = caronaProcurarNegocio.procurarCaronas(filtroCarona);
-        } catch (Exception e) {
-            //TRATAR ERRO
-            e.printStackTrace();
+        } catch (Exception excecao) {
+            Util.showMsgToastLong(CaronaProcurarActivity.this, excecao.getMessage().toString());
         }
 
         if (!(listaCaronasVisiveis.size() > 0)){

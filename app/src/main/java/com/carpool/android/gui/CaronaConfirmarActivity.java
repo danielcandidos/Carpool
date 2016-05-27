@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -17,7 +18,9 @@ import com.carpool.android.dominio.Carro;
 import com.carpool.android.dominio.Itinerario;
 import com.carpool.android.negocio.CaronaOferecerNegocio;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CaronaConfirmarActivity extends AppCompatActivity {
 
@@ -42,6 +45,15 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         edtCarroCarona = (EditText) findViewById(R.id.edtCarroCarona);
         edtHorarioPartidaCarona = (EditText) findViewById(R.id.edtHorarioPartidaCarona);
         spnVagasCarona = (Spinner) findViewById(R.id.spnVagasCarona);
+
+        List<String> valoresVagas = new ArrayList<String>();
+        valoresVagas.add("4");
+        valoresVagas.add("3");
+        valoresVagas.add("2");
+        valoresVagas.add("1");
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valoresVagas);
+        spnVagasCarona.setAdapter(adapter);
 
         caronaOferecerNegocio = new CaronaOferecerNegocio();
     }
@@ -104,17 +116,27 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /**
+     * Chamado para confirmar e cadastrar a Carona
+     *
+     * @param view
+     */
     public void confirmarOferecerCarona(View view) {
         Carona caronaMontada = this.montarCarona();
         try {
             caronaOferecerNegocio.oferecerCarona(caronaMontada);
         } catch (Exception exception){
-            // TRATAR ERRO
+            Util.showMsgToastLong(CaronaConfirmarActivity.this, "Campos não preenchidos:"+exception.getMessage().toString());
         }
         Util.showMsgToastShort(CaronaConfirmarActivity.this, "Sua carona foi ofertada! ;)");
         this.finish();
     }
 
+    /**
+     * Chamado para montar a Carona antes de mandar para a camada de negocio
+     *
+     * @return
+     */
     private Carona montarCarona() {
         Itinerario itinerario = caronaOferecerNegocio.getItinerario();
 

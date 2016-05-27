@@ -63,11 +63,7 @@ public class PessoaActivity extends AppCompatActivity {
         });
     }
 
-    public void setData(View view){
-        //
-    }
-
     public void cadastrar(View view){
-        //
+
     }
 }

@@ -13,6 +13,8 @@ import com.carpool.android.R;
 import com.carpool.android.dominio.Itinerario;
 import com.carpool.android.dominio.PontoEndereco;
 import com.carpool.android.negocio.CaronaOferecerNegocio;
+import com.carpool.android.negocio.UsuarioNegocio;
+import com.carpool.android.service.UsuarioService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -80,9 +82,11 @@ public class CaronaOferecerActivity extends AppCompatActivity implements OnMapRe
             listaPontosReferencia.add(pontoEndereco);
         }
 
+        UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
         Itinerario itinerario = new Itinerario();
         itinerario.setNomeItinerario("Nome provisório");
-        itinerario.setMotorista(null);
+        itinerario.setMotorista(usuarioNegocio.getUsuarioLogado());
         itinerario.setListaPontosEndereco(listaPontosReferencia);
 
         return itinerario;
