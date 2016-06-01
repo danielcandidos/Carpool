@@ -4,6 +4,7 @@ public class Usuario {
 	private int idUsuario;
     private String nomeUsuario;
     private String email;
+	private String telefone;
 	private String idPerfilFacebook;
 	private String tokenFacebook;
 	private boolean verificado;
@@ -35,6 +36,14 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public String getIdPerfilFacebook() {

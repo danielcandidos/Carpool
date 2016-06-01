@@ -15,7 +15,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="90"
         android:background="@color/gray_light">
 
         <LinearLayout
@@ -51,8 +50,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="15dp"
                         android:layout_weight="3"
-                        android:src="@drawable/profile_black" />
+                        android:src="@drawable/nav_item_profile" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -66,10 +66,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
-                            android:text="Raffael Vieira Ramos"
+                            android:paddingLeft="15dp"
+                            android:text="Motorista da Carona"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/txtPerfilDepartamento"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -82,7 +83,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/txtPerfilDepartamento"
-                            android:text="Sistemas de Informação" />
+                            android:text="Sistemas de Informação" />-->
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -90,7 +91,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@id/txtPerfilCurso"
+                    android:layout_below="@id/txtPerfilNome"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
@@ -124,9 +125,10 @@
                 <TextView
                     style="@style/textview_listagem_titulo"
                     android:layout_weight="1"
-                    android:text="Origem" />
+                    android:text="Nome da Carona" />
 
                 <TextView
+                    android:id="@+id/txtNomeCarona"
                     style="@style/textview_listagem_conteudo"
                     android:layout_weight="1"
                     android:text="Portelinha, Torre, Recife - PE" />
@@ -147,6 +149,7 @@
                     android:text="Horário de saída" />
 
                 <TextView
+                    android:id="@+id/txtHorarioSaida"
                     style="@style/textview_listagem_conteudo"
                     android:layout_weight="1"
                     android:text="09:30" />
@@ -157,6 +160,7 @@
                     android:text="Vagas" />
 
                 <TextView
+                    android:id="@+id/txtVagasCarona"
                     style="@style/textview_listagem_conteudo"
                     android:layout_weight="1"
                     android:text="04" />
@@ -167,10 +171,10 @@
 
     </ScrollView>
 
-    <Button
+    <!--<Button
         android:id="@+id/btnPedir"
         style="@style/btn_acao_principal"
         android:onClick="pedirCarona"
-        android:text="@string/btn_pedir" />
+        android:text="@string/btn_pedir" />-->
 
 </LinearLayout>

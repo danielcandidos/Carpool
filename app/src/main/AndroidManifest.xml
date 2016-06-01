@@ -37,7 +37,8 @@
 
         <activity
             android:name=".gui.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,11 +70,15 @@
         <activity
             android:name=".gui.PerfilActivity"
             android:label="@string/title_activity_perfil" />
-        <activity android:name=".gui.PessoaActivity" />
+        <activity
+            android:name=".gui.PessoaActivity"
+            android:label="@string/title_activity_pessoa" />
         <activity
             android:name=".gui.CaronaInfoActivity"
             android:label="@string/title_activity_info_carona" />
-        <activity android:name=".gui.CaronaConfirmarActivity"></activity>
+        <activity
+            android:name=".gui.CaronaConfirmarActivity"
+            android:label="@string/title_activity_oferecer_carona"></activity>
     </application>
 
 </manifest>

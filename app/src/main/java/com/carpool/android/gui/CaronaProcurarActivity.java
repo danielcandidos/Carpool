@@ -17,6 +17,8 @@ import com.carpool.android.dominio.Carona;
 import com.carpool.android.dominio.FiltroCarona;
 import com.carpool.android.dominio.PontoEndereco;
 import com.carpool.android.negocio.CaronaProcurarNegocio;
+import com.carpool.android.negocio.UsuarioNegocio;
+import com.carpool.android.service.UsuarioService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -150,7 +152,9 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
                     mMap.addMarker(new MarkerOptions()
                             .position(pontoParadaCarona)
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.carro))
-                            .title(carona.getNomeCarona()+ " Ponto" + i));
+                            .title(carona.getNomeCarona())
+                            .snippet(carona.getItinerario().getMotorista().getNomeUsuario()));
+                            //.snippet(getString(R.string.ponto) + " " + i));
                 }
             }
         }
@@ -162,7 +166,7 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekBar == seekbarRaio) {
             raioAtual = seekbarRaio.getProgress();
-            String txtRaioTemp = getString(R.string.raio_de_busca) + raioAtual + getString(R.string.metros);
+            String txtRaioTemp = getString(R.string.raio_de_busca)+ " " + raioAtual + " " + getString(R.string.metros);
             txtRaio.setText(txtRaioTemp);
         }
         draggableCircle.setRadius(raioAtual);
@@ -234,7 +238,13 @@ public class CaronaProcurarActivity extends AppCompatActivity implements SeekBar
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Util.showMsgToastLong(CaronaProcurarActivity.this, marker.getId().toString());
+        for (Carona carona : listaCaronasVisiveis) {
+            if (carona.getNomeCarona().equals(marker.getTitle().toString())){
+                Util.showMsgToastShort(CaronaProcurarActivity.this, "TESTANDO");
+                CaronaProcurarNegocio.setCaronaPedida(carona);
+            }
+        }
+        //Util.showMsgToastLong(CaronaProcurarActivity.this, marker.getId().toString());
         Util.trocarTela(CaronaProcurarActivity.this, CaronaInfoActivity.class);
     }
 }

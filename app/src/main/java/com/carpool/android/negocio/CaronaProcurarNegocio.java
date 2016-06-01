@@ -9,7 +9,16 @@ import java.util.ArrayList;
 
 public class CaronaProcurarNegocio {
 
-    private static ArrayList<LatLng> listaDePontos = new ArrayList<>();
+    //private static ArrayList<LatLng> listaDePontos = new ArrayList<>();
+    private static Carona caronaPedida;
+
+    public static Carona getCaronaPedida() {
+        return caronaPedida;
+    }
+
+    public static void setCaronaPedida(Carona caronaPedidaNova) {
+        caronaPedida = caronaPedidaNova;
+    }
 
     public ArrayList<Carona> procurarCaronas(FiltroCarona filtroCarona) throws Exception {
 
@@ -41,7 +50,7 @@ public class CaronaProcurarNegocio {
         }
     }
 
-    public ArrayList<LatLng> procurarCarona(LatLng localizacaoAtual, double raio){
+    /*public ArrayList<LatLng> procurarCarona(LatLng localizacaoAtual, double raio){
 
         ArrayList<LatLng> pontosNoRaio = new ArrayList<LatLng>();
 
@@ -60,6 +69,6 @@ public class CaronaProcurarNegocio {
             }
         }
         return pontosNoRaio;
-    }
+    }*/
 
 }

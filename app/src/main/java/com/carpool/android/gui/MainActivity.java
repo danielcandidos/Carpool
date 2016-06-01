@@ -8,7 +8,9 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -16,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.carpool.android.R;
@@ -31,8 +32,10 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    CallbackManager callbackManager;
-    LoginButton loginButton;
+    private SharedPreferences preferences;
+
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +51,32 @@ public class MainActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 AccessToken accessToken = loginResult.getAccessToken();
                 Profile profile = Profile.getCurrentProfile();
                 getFacebookData(accessToken, profile);
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Sucesso ao Logar!", Toast.LENGTH_LONG).show();
+                entrar();
+                Util.showMsgToastLong(MainActivity.this, getString(R.string.msg_diga_ola) + " " + profile.getName());
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Login Cancelado pelo usuário!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this.getApplicationContext(), getString(R.string.msg_login_cancelado), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException e) {
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Login sem sucesso!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this.getApplicationContext(), getString(R.string.msg_login_sem_sucesso), Toast.LENGTH_LONG).show();
             }
         });
+
+        //PEGANDO INFORMAÇÕES DO PREFERENCES PARA VERIFICAR LOGIN ANTERIOR
+        preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
+        String id = preferences.getString("id", null);
+        String token = preferences.getString("token", null);
+        if (id != null && token != null) {
+            entrar();
+        }
+
     }
 
     @Override
@@ -91,18 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getFacebookData(AccessToken accessToken, Profile profile) {
-
-        /*System.out.println("---------------------");
-        System.out.println("> Facebook Login Successful!");
-        System.out.println("---------------------");
-        System.out.println("> User ID : " + accessToken.getUserId());
-        System.out.println("> Authentication Token : " + accessToken.getToken());
-        System.out.println("> URL Perfil: " + profile.getLinkUri());
-        System.out.println("> URL Imagem: " + profile.getProfilePictureUri(500, 500));
-        System.out.println("> ID : " + profile.getId());
-        System.out.println("> Name : " + profile.getName());
-        System.out.println("---------------------");*/
-
+        // Salva informações do facebook do usuario em Usuario Logado
         Usuario usuario = new Usuario();
         usuario.setNomeUsuario(profile.getName());
         usuario.setEmail("");
@@ -111,12 +112,27 @@ public class MainActivity extends AppCompatActivity {
         usuario.setUrlPerfil(profile.getLinkUri().toString());
         usuario.setUrlFoto(profile.getProfilePictureUri(500, 500).toString());
 
-        UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
-        usuarioNegocio.setUsuarioLogado(usuario);
+        UsuarioNegocio.setUsuarioLogado(usuario);
+
+        // Salva informações de login no SharedPreferences do usuario
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("id", accessToken.getUserId());
+        editor.putString("token", accessToken.getToken());
+        editor.commit();
     }
 
-    public void seguir(View view) {
-        Util.trocarTela(MainActivity.this, MapsActivity.class);
-        finish();
+    public void entrar() {
+        if (!(UsuarioNegocio.getUsuarioLogado() == null)) {
+            String id = UsuarioNegocio.getUsuarioLogado().getIdPerfilFacebook();
+            String token = UsuarioNegocio.getUsuarioLogado().getTokenFacebook();
+            if (!(id == null) && !(token == null)) {
+                Util.trocarTela(MainActivity.this, MapsActivity.class);
+                finish();
+            } else {
+                Util.showMsgToastLong(MainActivity.this, getString(R.string.msg_precisa_logar));
+            }
+        } else {
+            Util.showMsgToastLong(MainActivity.this, getString(R.string.msg_precisa_logar));
+        }
     }
 }

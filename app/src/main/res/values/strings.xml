@@ -6,7 +6,8 @@
     <string name="title_activity_procurar_carona">Procurar Carona</string>
     <string name="title_activity_oferecer_carona">Oferecer Carona</string>
     <string name="title_activity_perfil">Perfil</string>
-    <string name="title_activity_info_carona">Carona</string>
+    <string name="title_activity_pessoa">Seus dados</string>
+    <string name="title_activity_info_carona">Informações da Carona</string>
 
 
     <!-- Strings referentes ao NavDrawer -->
@@ -24,7 +25,8 @@
     <string name="btn_oferecer">Oferecer</string>
     <string name="btn_confirmar">Confirmar</string>
     <string name="btn_ver_perfil">Ver Perfil</string>
-    <string name="raio_de_busca">Raio de busca: </string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="raio_de_busca">Raio de busca:</string>
     <string name="metros"> metros</string>
     <string name="raio_de_busca_default">Raio de busca: 1000 metros</string>
     <string name="as">às</string>
@@ -40,6 +42,13 @@
     <string name="msg_ponto_adicionado">Ponto adicionado!</string>
     <string name="msg_ponto_alterado">Ponto alterado!</string>
     <string name="msg_ponto_removido">Ponto removido!</string>
+    <string name="msg_precisa_logar">Você precisa logar com o Facebook para acessar o Carpool ;)</string>
+    <string name="msg_diga_ola">Diga olá ao Carpool,</string>
+    <string name="msg_login_cancelado">Login cancelado pelo usuário!</string>
+    <string name="msg_login_sem_sucesso">Login sem sucesso!</string>
+    <string name="msg_campos_nao_preenchidos">Campos não preenchidos:</string>
+    <string name="msg_dados_alterados">Seus dados foram alterados com sucesso! ;)</string>
+    <string name="msg_sem_email">Usuário não tem email cadastrado =/</string>
 
     <!-- Mensagens de AlertDialogs -->
     <string name="titulo_trocar_carro">Trocar Carro</string>
@@ -51,6 +60,7 @@
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
     <string name="hora_minuto">hh:mm</string>
+    <string name="ponto">Ponto</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

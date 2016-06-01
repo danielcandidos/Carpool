@@ -46,7 +46,7 @@ public class CaronaOferecerNegocio {
             builder.append(" nomeCarona;");
         } else if(carona.getHorarioSaida().equals("hh:mm")){
             builder.append(" horarioSaida;");
-        } else if(carona.getCarro().equals(null)){
+        } else if(carona.getCarro() == null){
             builder.append(" carro;");
         }
 

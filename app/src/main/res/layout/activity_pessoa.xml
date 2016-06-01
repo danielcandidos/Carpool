@@ -23,27 +23,27 @@
             android:padding="15dp">
 
             <EditText
-                android:id="@+id/edtNome"
+                android:id="@+id/edtNomePessoa"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="Nome"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/edtEmail"
+                android:id="@+id/edtEmailPessoa"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="Email"
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/edtEndereco"
+                android:id="@+id/edtTelefonePessoa"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:hint="Endereço"
+                android:hint="Telefone"
                 android:inputType="text" />
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/edtCpf"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -94,14 +94,15 @@
                 android:id="@+id/spnGenero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"></Spinner>
+                android:visibility="invisible"></Spinner>-->
 
             <Button
                 android:id="@+id/btnCadastrar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:onClick="cadastrar"
-                android:text="Cadastrar" />
+                android:text="@string/btn_salvar" />
         </LinearLayout>
     </ScrollView>
 

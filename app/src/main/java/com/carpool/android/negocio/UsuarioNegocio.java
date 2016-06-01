@@ -6,11 +6,11 @@ import com.carpool.android.service.UsuarioService;
 public class UsuarioNegocio {
     private static Usuario usuarioLogado;
 
-    public Usuario getUsuarioLogado() {
+    public static Usuario getUsuarioLogado() {
         return usuarioLogado;
     }
 
-    public void setUsuarioLogado(Usuario usuarioLogado) {
+    public static void setUsuarioLogado(Usuario usuarioLogado) {
         UsuarioNegocio.usuarioLogado = usuarioLogado;
     }
 
@@ -22,11 +22,32 @@ public class UsuarioNegocio {
         }
     }
 
-    public void editarUsuario(Usuario usuario) throws Exception {
+    public void editarUsuario(Usuario usuario) {
         try {
-            UsuarioService.editarUsuario(usuario);
+            String retornoValidacao = validarUsuario(usuario);
+            if(retornoValidacao.equals("")){
+                UsuarioService.editarUsuario(usuario);
+            } else {
+                throw new Exception(retornoValidacao);
+            }
         } catch (Exception excecao){
-            throw new Exception(excecao);
+            excecao.printStackTrace();
         }
     }
+
+    private String validarUsuario(Usuario usuario){
+        StringBuilder builder = new StringBuilder();
+        builder.append("");
+
+        if(usuario.getNomeUsuario().equals("")){
+            builder.append(" nome;");
+        } else if(usuario.getEmail().equals("")){
+            builder.append(" email;");
+        } else if(usuario.getTelefone().equals("")){
+            builder.append(" telefone;");
+        }
+
+        return builder.toString();
+    }
+
 }

@@ -25,7 +25,7 @@ import java.util.List;
 public class CaronaConfirmarActivity extends AppCompatActivity {
 
     private CaronaOferecerNegocio caronaOferecerNegocio;
-    private Carro carro;
+    private Carro carro = new Carro();
 
     private Toolbar toolbar;
     private EditText edtNomeCarona, edtCarroCarona, edtHorarioPartidaCarona;
@@ -47,10 +47,10 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         spnVagasCarona = (Spinner) findViewById(R.id.spnVagasCarona);
 
         List<String> valoresVagas = new ArrayList<String>();
-        valoresVagas.add("4");
-        valoresVagas.add("3");
-        valoresVagas.add("2");
-        valoresVagas.add("1");
+        valoresVagas.add("4 vagas");
+        valoresVagas.add("3 vagas");
+        valoresVagas.add("2 vagas");
+        valoresVagas.add("1 vaga");
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valoresVagas);
         spnVagasCarona.setAdapter(adapter);
@@ -101,7 +101,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Util.trocarTela(CaronaConfirmarActivity.this, PerfilActivity.class);
+                        alertDialog.dismiss();
                     }
                 });
         alertDialog.setButton(
@@ -126,7 +126,8 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         try {
             caronaOferecerNegocio.oferecerCarona(caronaMontada);
         } catch (Exception exception){
-            Util.showMsgToastLong(CaronaConfirmarActivity.this, "Campos não preenchidos:"+exception.getMessage().toString());
+            Util.showMsgToastLong(CaronaConfirmarActivity.this,
+                    getString(R.string.msg_campos_nao_preenchidos) + exception.getMessage().toString());
         }
         Util.showMsgToastShort(CaronaConfirmarActivity.this, "Sua carona foi ofertada! ;)");
         this.finish();

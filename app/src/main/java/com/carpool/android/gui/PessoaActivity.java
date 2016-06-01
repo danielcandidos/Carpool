@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.carpool.android.R;
+import com.carpool.android.dominio.Usuario;
+import com.carpool.android.negocio.UsuarioNegocio;
+import com.carpool.android.service.UsuarioService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +21,9 @@ import java.util.List;
 public class PessoaActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private RadioGroup rgpGenero;
-    private RadioButton rbtOutros;
-    private Spinner spnGenero;
+    private EditText edtNomePessoa, edtEmailPessoa, edtTelefonePessoa;
+    private Usuario usuario;
+    private UsuarioNegocio usuarioNegocio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,19 @@ public class PessoaActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         Util.buildToolbarHomeButton(PessoaActivity.this, toolbar);
 
-        // Testando Spinner de generos
+        // Mapeando objetos da tela
+        edtNomePessoa = (EditText) findViewById(R.id.edtNomePessoa);
+        edtEmailPessoa = (EditText) findViewById(R.id.edtEmailPessoa);
+        edtTelefonePessoa = (EditText) findViewById(R.id.edtTelefonePessoa);
+
+        usuarioNegocio = new UsuarioNegocio();
+        usuario = usuarioNegocio.getUsuarioLogado();
+
+        if (usuario != null){
+            edtNomePessoa.setText(usuario.getNomeUsuario());
+        }
+
+        /* Testando Spinner de generos
         List<String> valores = new ArrayList<String>();
         valores.add("Homem (trans)");
         valores.add("Homem transexual");
@@ -60,10 +76,21 @@ public class PessoaActivity extends AppCompatActivity {
                     spnGenero.setVisibility(View.INVISIBLE);
                 }
             }
-        });
+        });*/
     }
 
     public void cadastrar(View view){
+        usuario.setNomeUsuario(edtNomePessoa.getText().toString());
+        usuario.setEmail(edtEmailPessoa.getText().toString());
+        usuario.setTelefone(edtTelefonePessoa.getText().toString());
 
+        try {
+            usuarioNegocio.editarUsuario(usuario);
+            Util.showMsgToastLong(PessoaActivity.this, getString(R.string.msg_dados_alterados));
+            finish();
+        } catch (Exception exception) {
+            Util.showMsgToastLong(PessoaActivity.this,
+                    getString(R.string.msg_campos_nao_preenchidos) + exception.getMessage().toString());
+        }
     }
 }

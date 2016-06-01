@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_light"
+        android:baselineAligned="false"
         android:orientation="vertical"
-        android:padding="15dp"
-        android:baselineAligned="false">
+        android:padding="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -26,23 +26,24 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="3"
             android:background="@color/white"
-            android:orientation="horizontal"
             android:elevation="5dp"
-            android:focusable="true">
+            android:focusable="true"
+            android:orientation="horizontal">
 
             <ImageView
+                android:padding="15dp"
                 android:id="@+id/user_profile_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/profile_black" />
+                android:src="@drawable/nav_item_profile" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="5dp">
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/txtPerfilNome"
@@ -52,7 +53,7 @@
                     android:text="Motorista da Carona"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/txtPerfilDepartamento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtPerfilDepartamento"
-                    android:text="Sistemas de Informação" />
+                    android:text="Sistemas de Informação" />-->
 
             </RelativeLayout>
 
@@ -76,16 +77,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:contextClickable="true"
             android:elevation="5dp"
-            android:contextClickable="true">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
+                android:onClick="sendWhatsapp"
                 android:src="@drawable/ic_perfil_whatsapp" />
 
             <ImageButton
@@ -93,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
+                android:onClick="sendFacebook"
                 android:src="@drawable/ic_perfil_facebook" />
 
             <ImageButton
@@ -100,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
+                android:onClick="sendEmail"
                 android:src="@drawable/ic_perfil_email" />
 
         </LinearLayout>
@@ -110,8 +114,8 @@
             android:layout_marginTop="10dp"
             android:layout_weight="5"
             android:background="@color/white"
-            android:orientation="horizontal"
-            android:elevation="5dp">
+            android:elevation="5dp"
+            android:orientation="horizontal">
 
 
         </LinearLayout>
