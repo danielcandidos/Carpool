@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="Telefone"
-                android:inputType="text" />
+                android:inputType="phone" />
 
             <!--<EditText
                 android:id="@+id/edtCpf"

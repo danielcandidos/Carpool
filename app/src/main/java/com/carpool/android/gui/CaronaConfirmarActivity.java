@@ -28,7 +28,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
     private Carro carro = new Carro();
 
     private Toolbar toolbar;
-    private EditText edtNomeCarona, edtCarroCarona, edtHorarioPartidaCarona;
+    private EditText edtNomeCarona, edtHorarioPartidaCarona;
     private Spinner spnVagasCarona;
 
     @Override
@@ -40,17 +40,16 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         Util.buildToolbarHomeButton(CaronaConfirmarActivity.this, toolbar);
 
-        // Mapeando elementos de tela
+        // Mapeando elementos da tela
         edtNomeCarona = (EditText) findViewById(R.id.edtNomeCarona);
-        edtCarroCarona = (EditText) findViewById(R.id.edtCarroCarona);
         edtHorarioPartidaCarona = (EditText) findViewById(R.id.edtHorarioPartidaCarona);
         spnVagasCarona = (Spinner) findViewById(R.id.spnVagasCarona);
 
         List<String> valoresVagas = new ArrayList<String>();
-        valoresVagas.add("4 vagas");
-        valoresVagas.add("3 vagas");
-        valoresVagas.add("2 vagas");
-        valoresVagas.add("1 vaga");
+        valoresVagas.add("4");
+        valoresVagas.add("3");
+        valoresVagas.add("2");
+        valoresVagas.add("1");
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, valoresVagas);
         spnVagasCarona.setAdapter(adapter);
@@ -125,7 +124,7 @@ public class CaronaConfirmarActivity extends AppCompatActivity {
         Carona caronaMontada = this.montarCarona();
         try {
             caronaOferecerNegocio.oferecerCarona(caronaMontada);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             Util.showMsgToastLong(CaronaConfirmarActivity.this,
                     getString(R.string.msg_campos_nao_preenchidos) + exception.getMessage().toString());
         }

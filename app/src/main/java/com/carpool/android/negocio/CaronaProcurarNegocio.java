@@ -5,7 +5,11 @@ import com.carpool.android.dominio.FiltroCarona;
 import com.carpool.android.service.CaronaService;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CaronaProcurarNegocio {
 
@@ -22,24 +26,84 @@ public class CaronaProcurarNegocio {
 
     public ArrayList<Carona> procurarCaronas(FiltroCarona filtroCarona) throws Exception {
 
-        ArrayList<Carona> listaCaronas = new ArrayList<>();
+        // lista temporaria de todas as caronas que retornarão da consulta
+        ArrayList<Carona> listaCaronasTemp = new ArrayList<>();
 
         try {
-            this.validarFiltroCarona(filtroCarona);
-            listaCaronas = CaronaService.procurarCaronas(filtroCarona);
-        } catch (Exception excecao) {
-            throw new Exception(excecao);
-        }
-
-        return listaCaronas;
-    }
-
-    private void validarFiltroCarona(FiltroCarona filtroCarona) throws Exception {
-        try {
-
+            String retornoValidacao = validarFiltroCarona(filtroCarona);
+            if(retornoValidacao.equals("")){
+                listaCaronasTemp = CaronaService.procurarCaronas(filtroCarona);
+            } else {
+                throw new Exception(retornoValidacao);
+            }
         } catch (Exception excecao){
             throw new Exception(excecao);
         }
+
+        // lista de caronas para o retorno após o filtro de horário
+        ArrayList<Carona> listaCaronasRetorno = new ArrayList<>();
+
+        for (Carona carona : listaCaronasTemp) {
+            if (this.verificarIntervalo(
+                    filtroCarona.getHorarioInicio(),
+                    filtroCarona.getHorarioFim(),
+                    carona.getHorarioSaida())) {
+
+                listaCaronasRetorno.add(carona);
+            }
+        }
+
+        return listaCaronasRetorno;
+    }
+
+    /**
+     * Verifica se as caronas retornadas estão dentro do intervalo de tempo pesquisado
+     *
+     * @param hInicio
+     * @param hFim
+     * @param hPartida
+     * @return
+     */
+    private boolean verificarIntervalo (String hInicio, String hFim, String hPartida){
+        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+        Date horarioInicio = null;
+        Date horarioFim = null;
+        Date horarioPartida = null;
+        try {
+            horarioInicio = formatador.parse(hInicio);
+            horarioFim = formatador.parse(hFim);
+            horarioPartida = formatador.parse(hPartida);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if ((horarioPartida.getTime() > horarioInicio.getTime()) && (horarioPartida.getTime() < horarioFim.getTime()) ){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Verifica se todos os campos estão preenchidos
+     *
+     * @param filtroCarona
+     * @return
+     * @throws Exception
+     */
+    public String validarFiltroCarona(FiltroCarona filtroCarona) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("");
+
+        if(filtroCarona.getHorarioInicio().equals("")){
+            builder.append(" horario inicio;");
+        } else if(filtroCarona.getHorarioFim().equals("")) {
+            builder.append(" horario fim;");
+        }
+
+        return builder.toString();
     }
 
     public void pedirCarona(Carona caronaPedida) throws Exception {

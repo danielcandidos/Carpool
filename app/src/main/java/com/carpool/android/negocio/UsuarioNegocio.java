@@ -22,7 +22,7 @@ public class UsuarioNegocio {
         }
     }
 
-    public void editarUsuario(Usuario usuario) {
+    public void editarUsuario(Usuario usuario) throws Exception {
         try {
             String retornoValidacao = validarUsuario(usuario);
             if(retornoValidacao.equals("")){
@@ -31,10 +31,16 @@ public class UsuarioNegocio {
                 throw new Exception(retornoValidacao);
             }
         } catch (Exception excecao){
-            excecao.printStackTrace();
+            throw new Exception(excecao);
         }
     }
 
+    /**
+     * Verifica se todos os campos estão preenchidos
+     *
+     * @param usuario
+     * @return
+     */
     private String validarUsuario(Usuario usuario){
         StringBuilder builder = new StringBuilder();
         builder.append("");

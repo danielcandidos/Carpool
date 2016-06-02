@@ -26,14 +26,14 @@ public class CaronaService {
                                 Math.cos(Math.toRadians(pontoBusca.getLongitude()) - Math.toRadians(ponto.getLongitude())) +
                                 Math.sin(Math.toRadians(pontoBusca.getLatitude())) *
                                         Math.sin(Math.toRadians(ponto.getLatitude())))
-                ) <= (raio / 1000)) {
+                ) <= (raio / 1000.0)) {
                     if (!caronasNoRaio.contains(carona)){
                         caronasNoRaio.add(carona);
                     }
                 }
             }
         }
-        return listaCaronas;
+        return caronasNoRaio;
     }
 
     public static void pedirCarona(Carona caronaPedida){
